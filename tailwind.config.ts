@@ -17,6 +17,13 @@ const config: Config = {
     fontFamily: {
       PPMondwest: ['PPMondwest-Regular', 'sans-serif'],
     },
+    colors: {
+      brand: {
+        blue: "#0657e0",
+        bluedark: "#002360",
+        neongreen: "#00ff66"
+      }
+    }
   },
   plugins: [
     require("@tailwindcss/forms"),

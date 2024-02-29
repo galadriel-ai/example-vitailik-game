@@ -199,7 +199,7 @@ const GameDisplay = ({game, network, onNewSelection}: {
   }
 
   return <>
-    <div className="bg-[#1c1a1a] rounded-2xl p-4 border-t-2 border-blue-300 border-opacity-50">
+    <div className="bg-brand-bluedark p-4 border-t-2 border-blue-300 border-opacity-50">
 
       <h1 className="text-4xl font-semibold">Game details</h1>
       <div className="flex flex-col gap-5 pt-5">
@@ -225,7 +225,7 @@ const GameDisplay = ({game, network, onNewSelection}: {
         {game.prompts.map((d, i) =>
           <div
             key={d.id}
-            className="flex flex-col gap-10 pt-10 border-t-2 border-blue-300 border-opacity-50 bg-[#1c1a1a] p-4 rounded-2xl"
+            className="flex flex-col gap-10 pt-10 border-t-2 border-blue-300 border-opacity-50 bg-brand-bluedark p-4"
           >
             <div className="flex flex-col gap-2">
               <div>Index: {d.index}</div>
@@ -244,7 +244,7 @@ const GameDisplay = ({game, network, onNewSelection}: {
                 />
               }
             </div>
-            <div className="whitespace-pre-line rounded-2xl bg-[#141414] bg-opacity-80 p-4">
+            <div className="whitespace-pre-line bg-[#141414] bg-opacity-80 p-4">
               <div>{d.content}</div>
             </div>
             {(!game.isFinished && game.userSelections.length < (i + 1) && currentAccount && currentAccount.address === game.player) &&
@@ -283,7 +283,7 @@ const Selector = ({onSelection}: { onSelection: (selection: number) => Promise<v
     <div className="flex flex-row gap-12">
       {SELECTIONS.map((selection: string, i: number) =>
         <div
-          className="border-2 rounded p-4 cursor-pointer hover:bg-white hover:text-black duration-150"
+          className="border-2 p-4 cursor-pointer hover:bg-white hover:text-black duration-150"
           key={`selection-${i}`}
           onClick={() => onSelection(i)}
         >

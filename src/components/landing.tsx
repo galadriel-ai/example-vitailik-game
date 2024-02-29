@@ -141,7 +141,7 @@ export function Landing(props: Props) {
         <h1 className="font-PPMondwest">Battle with on-chain AI agent “VITAILIK”</h1>
         
         <div
-          className="w-full items-center flex flex-col p-6 bg-gray-200 rounded-2xl text-black border-t-2 border-blue-300">
+          className="w-full items-center flex flex-col p-6 text-black border-t-2 border-blue-300 bg-brand-bluedark">
           <div className="flex flex-row w-full gap-4">
 
             <div className="basis-1/2 flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
@@ -151,7 +151,7 @@ export function Landing(props: Props) {
                     {agentErrorMessage}
                   </div>
                   <button
-                    className="p-2 px-4 rounded bg-gray-800 text-white hover:bg-gray-600 duration-200 focus:outline-none"
+                    className="p-2 px-4 bg-brand-neongreen text-black duration-200 focus:outline-none"
                     onClick={() => onStartGame()}
                   >
                     Start Game
@@ -177,7 +177,7 @@ export function Landing(props: Props) {
                 }
               />
               <button
-                className="p-2 px-4 rounded bg-gray-800 text-white hover:bg-gray-600 duration-200 focus:outline-none"
+                className="p-2 px-4 bg-gray-800 text-white hover:bg-gray-600 duration-200 focus:outline-none"
                 onClick={() => onSearch()}
               >
                 Search
@@ -204,7 +204,7 @@ export function Landing(props: Props) {
           </div>
         </div>
         <div>
-          Made with ❤️ by <a href="https://galadriel.com">Galadriel</a>.
+          Made with 💙 by <a href="https://galadriel.com">Galadriel</a>.
         </div>
       </main>
     </>
