@@ -27,8 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={plexmono.className}>
+        <div className="h-screen bg-fight bg-no-repeat bg-contain bg-center ">
         <Navbar />
-        {children}
+          {children}
+        </div>
       </body>
     </html>
   );
