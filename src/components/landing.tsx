@@ -114,19 +114,20 @@ export function Landing(props: Props) {
     <>
       <main className="flex min-h-screen flex-col items-center gap-20 p-12 justify-between">
         <div className="z-10 max-w-8xl w-full items-center justify-between font-mono text-sm lg:flex">
+          On {props.network}.&nbsp;
           {currentAccount ?
             <>
-              Account balance {balance}
+              Account balance {balance} SUI
             </>
             :
             <>
-              Not connected
+              Wallet not connected
             </>
           }
           <div
             className="flex flex-col h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
             <div className="mx-auto pb-2">
-              Only regular wallets supported! (no zk support)
+              Only regular wallets supported! (no ZK wallets)
             </div>
             <div className="flex flex-row gap-4 items-center">
               <ConnectButton
@@ -134,23 +135,6 @@ export function Landing(props: Props) {
               />
             </div>
 
-          </div>
-        </div>
-        <div className="w-full text-left">
-          <div className="pb-12">
-            Make sure your wallet is connected to
-            <span className="pl-2 font-bold">
-              {props.network}
-            </span>
-          </div>
-          <div>
-            Game contract address: {NETWORK_IDS[props.network].packageId}
-            <ExplorerLinks objectId={NETWORK_IDS[props.network].packageId} type={"object"} network={props.network}/>
-          </div>
-          <div className="pt-4">
-            Game registry object: {NETWORK_IDS[props.network].registryObjectId}
-            <ExplorerLinks objectId={NETWORK_IDS[props.network].registryObjectId} type={"object"}
-                           network={props.network}/>
           </div>
         </div>
         <div
@@ -205,8 +189,19 @@ export function Landing(props: Props) {
           {gameId && <RunExplorer gameObjectId={gameId} network={props.network}/>}
         </div>
 
+        <div className="w-full text-left">
+          <div>
+            Game contract: {NETWORK_IDS[props.network].packageId}
+            <ExplorerLinks objectId={NETWORK_IDS[props.network].packageId} type={"object"} network={props.network}/>
+          </div>
+          <div className="pt-4">
+            Game registry object: {NETWORK_IDS[props.network].registryObjectId}
+            <ExplorerLinks objectId={NETWORK_IDS[props.network].registryObjectId} type={"object"}
+                           network={props.network}/>
+          </div>
+        </div>
         <div>
-          Copyright (c) 2024 Galadriel
+          Made with ❤️ by <a href="https://galadriel.com">Galadriel</a>.
         </div>
       </main>
     </>
