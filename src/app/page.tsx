@@ -1,4 +1,18 @@
-import Link from 'next/link';
+import {BuildWithGaladriel} from "@/components/buildwithgaladriel";
+import { ExplorerLinks } from "@/components/explorer/explorerLinks";
+import {Network, NETWORKS, NETWORK_IDS} from "@/types/network";
+
+const DEFAULT_NETWORK: Network = "devnet"
+
+
+let currentNetwork: Network = DEFAULT_NETWORK;
+if (process.env.NEXT_PUBLIC_NETWORK && NETWORKS.includes(process.env.NEXT_PUBLIC_NETWORK)) {
+  currentNetwork = process.env.NEXT_PUBLIC_NETWORK as Network;
+}
+let formattedNetworkName: string = currentNetwork;
+  if (currentNetwork === "localnet") {
+    formattedNetworkName = "local"
+  }
 
 export default function Page() {
     return <>
@@ -11,7 +25,7 @@ export default function Page() {
         <button
           className="p-3 px-5 font-PPMondwest font-bold text-2xl bg-brand-neongreen text-brand-bluedark my-20"
         >
-          Connect 2 Battle
+          <a href="/play">Connect 2 Battle</a>
         </button>
 
         <div className="text-lg">
@@ -19,5 +33,30 @@ export default function Page() {
           <p>anyone can play</p>
         </div>
       </div>
+      
+      <div className="fixed bottom-0 left-0 p-4 text-slate-200">
+        <div>
+          Game contract: 
+          <a
+            href={`https://suiscan.com/object/${NETWORK_IDS[currentNetwork].packageId}?network=${formattedNetworkName}`}
+            target={"_blank"}
+            className="underline ml-2"
+          >
+            {NETWORK_IDS[currentNetwork].packageId.substring(0, 8) + "..."}
+          </a>
+        </div>
+        <div className="pt-4">
+          Game registry:
+          <a
+            href={`https://suiscan.com/object/${NETWORK_IDS[currentNetwork].registryObjectId}?network=${formattedNetworkName}`}
+            target={"_blank"}
+            className="underline ml-2"
+            >
+            {NETWORK_IDS[currentNetwork].registryObjectId.substring(0, 8) + "..."}
+          </a>
+        </div>
+      </div>
+
+        <BuildWithGaladriel />
     </>
   }

@@ -9,6 +9,7 @@ import {Input} from "@/components/ui/input";
 import {TransactionBlock} from '@mysten/sui.js/transactions';
 import {ExplorerLinks} from "@/components/explorer/explorerLinks";
 import {getFullnodeUrl, Network, NETWORK_IDS} from "@/types/network";
+import { BuildWithGaladriel } from "./buildwithgaladriel";
 
 const MIST_PER_SUI = BigInt(1000000000)
 
@@ -192,20 +193,7 @@ export function Landing(props: Props) {
           {gameId && <RunExplorer gameObjectId={gameId} network={props.network}/>}
         </div>
 
-        <div className="w-full text-left">
-          <div>
-            Game contract: {NETWORK_IDS[props.network].packageId}
-            <ExplorerLinks objectId={NETWORK_IDS[props.network].packageId} type={"object"} network={props.network}/>
-          </div>
-          <div className="pt-4">
-            Game registry object: {NETWORK_IDS[props.network].registryObjectId}
-            <ExplorerLinks objectId={NETWORK_IDS[props.network].registryObjectId} type={"object"}
-                           network={props.network}/>
-          </div>
-        </div>
-        <div>
-          Made with 💙 by <a href="https://galadriel.com">Galadriel</a>.
-        </div>
+        <BuildWithGaladriel />
       </main>
     </>
   )
