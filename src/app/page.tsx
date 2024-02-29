@@ -18,17 +18,17 @@ export default function Page() {
     return <>
       <div className="text-center font-PPMondwest mt-40"
         >
-        <p className="text-6xl my-5">Battle with on-chain AI "VitAIlik"</p>
-        <p className="text-2xl">and</p>
-        <p className="text-7xl mt-5">win <span className="text-brand-neongreen">1000 USDC</span></p>
+        <p className="text-8xl my-5">Battle with on-chain AI "VitAIlik"</p>
+        <p className="text-4xl">and</p>
+        <p className="text-9xl mt-5">win <span className="text-brand-neongreen">1000 USDC</span></p>
 
         <button
-          className="p-3 px-5 font-PPMondwest font-bold text-2xl bg-brand-neongreen text-brand-bluedark my-20"
+          className="p-3 px-5 font-PPMondwest font-bold text-4xl bg-brand-neongreen text-brand-bluedark my-20"
         >
           <a href="/play">Connect 2 Battle</a>
         </button>
 
-        <div className="text-lg">
+        <div className="text-2xl">
           <p>competition until end of ETHDenver</p>
           <p>anyone can play</p>
         </div>
@@ -36,7 +36,7 @@ export default function Page() {
       
       <div className="fixed bottom-0 left-0 p-4 text-slate-200">
         <div>
-          Game contract: 
+          AI contract: 
           <a
             href={`https://suiscan.com/object/${NETWORK_IDS[currentNetwork].packageId}?network=${formattedNetworkName}`}
             target={"_blank"}
@@ -46,7 +46,7 @@ export default function Page() {
           </a>
         </div>
         <div className="pt-4">
-          Game registry:
+          AI registry:
           <a
             href={`https://suiscan.com/object/${NETWORK_IDS[currentNetwork].registryObjectId}?network=${formattedNetworkName}`}
             target={"_blank"}

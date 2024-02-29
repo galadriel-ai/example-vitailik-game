@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const Navbar = () => {
   return (
-    <nav className="text-white">
+    <nav className="text-white my-5">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-end">
           {/* Navigation Links */}
