@@ -139,8 +139,6 @@ export function Landing(props: Props) {
           </div>
         </div>
         
-        <h1 className="font-PPMondwest">Battle with on-chain AI agent “VITAILIK”</h1>
-        
         <div
           className="w-full items-center flex flex-col p-6 border-t-2 border-blue-300 bg-brand-bluedark">
           <div className="flex flex-row w-full gap-4">
