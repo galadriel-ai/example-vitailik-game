@@ -14,6 +14,16 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
+    fontFamily: {
+      PPMondwest: ['PPMondwest-Regular', 'sans-serif'],
+    },
+    colors: {
+      brand: {
+        blue: "#0657e0",
+        bluedark: "#002360",
+        neongreen: "#00ff66"
+      }
+    }
   },
   plugins: [
     require("@tailwindcss/forms"),
