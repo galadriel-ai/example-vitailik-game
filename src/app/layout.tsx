@@ -4,6 +4,8 @@ import "./globals.css";
 
 import { IBM_Plex_Mono } from 'next/font/google'
 
+import {Navbar} from "@/components/navbar";
+
 const plexmono = IBM_Plex_Mono(
   {weight: "400", subsets: ["latin"]},
 );
@@ -24,7 +26,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={plexmono.className}>{children}</body>
+      <body className={plexmono.className}>
+        <div className="h-screen bg-fight bg-no-repeat bg-contain bg-center ">
+        <Navbar />
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
