@@ -5,6 +5,7 @@ import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network, NETWORK_IDS} from "@/types/network";
 import {FONT, FONT_BOLD} from "@/fonts/fonts";
+import { BuildWithGaladriel } from "../buildwithgaladriel";
 import {Loader} from "@/components/Loader";
 
 interface Props {
@@ -176,14 +177,7 @@ export function ScoreboardPage({network}: Props) {
               />
             </div>
           </div>
-          <div className="pb-1">build on-chain AI with</div>
-          <a
-            className={"hover:underline cursor-pointer pl-2 text-6xl flex flex-col items-end" + FONT_BOLD.className}
-            href="https://galadriel.com"
-            target="_blank"
-          >
-            Galadriel
-          </a>
+          <BuildWithGaladriel />
         </div>
       </main>
     </>

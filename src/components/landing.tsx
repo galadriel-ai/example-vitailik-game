@@ -6,8 +6,9 @@ import {ExplorerLinks} from "@/components/explorer/explorerLinks";
 import {Network, NETWORK_IDS} from "@/types/network";
 import {Web3} from "web3";
 import {FONT, FONT_BOLD} from "@/fonts/fonts";
-import {useWeb3Modal} from '@web3modal/wagmi/react'
-import {useAccount} from 'wagmi'
+import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useAccount } from 'wagmi'
+import { BuildWithGaladriel } from "./buildwithgaladriel";
 
 interface Props {
   network: Network
@@ -239,14 +240,7 @@ export function Landing(props: Props) {
               />
             </div>
           </div>
-          <div className="pb-1">build on-chain AI with</div>
-          <a
-            className={"hover:underline cursor-pointer pl-2 text-6xl flex flex-col items-end" + FONT_BOLD.className}
-            href="https://galadriel.com"
-            target="_blank"
-          >
-            Galadriel
-          </a>
+          <BuildWithGaladriel />
         </div>
       </main>
     </>
