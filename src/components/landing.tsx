@@ -1,16 +1,12 @@
 "use client"
 
-import {useEffect, useState} from "react"
-import {ConnectButton, useCurrentAccount, useSignAndExecuteTransactionBlock, useSuiClient} from "@mysten/dapp-kit"
-// @ts-ignore
-import {CoinBalance} from "@mysten/sui.js/src/client"
+import {useState} from "react"
 import {RunExplorer} from "@/components/explorer/runExplorer";
-import {Input} from "@/components/ui/input";
-import {TransactionBlock} from '@mysten/sui.js/transactions';
 import {ExplorerLinks} from "@/components/explorer/explorerLinks";
-import {getFullnodeUrl, Network, NETWORK_IDS} from "@/types/network";
+import {Network, NETWORK_IDS} from "@/types/network";
+import {Web3} from "web3";
+import {FONT, FONT_BOLD} from "@/fonts/fonts";
 
-const MIST_PER_SUI = BigInt(1000000000)
 
 interface Props {
   network: Network
@@ -18,195 +14,229 @@ interface Props {
 }
 
 export function Landing(props: Props) {
-  const client = useSuiClient()
-  const currentAccount = useCurrentAccount()
-  const {mutate: signAndExecuteTransactionBlock} = useSignAndExecuteTransactionBlock();
+  const [connectedAccount, setConnectedAccount] = useState<string>("");
 
-  const [searchInput, setSearchInput] = useState<string>("")
-  const [searchErrorMessage, setSearchErrorMessage] = useState<string>("")
+  const [isGameStartLoading, setIsGameStartLoading] = useState<boolean>(false)
 
-  const [agentErrorMessage, setAgentErrorMessage] = useState<string>("")
-
+  // 0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af
+  // TODO: revert
   const [gameId, setGameId] = useState<string | undefined>()
+  // const [gameId, setGameId] = useState<string | undefined>("0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af")
 
-  const [balance, setBalance] = useState<number>(0)
+  const connectWeb3 = async (): Promise<void> => {
+    // @ts-ignore
+    if (window.ethereum) {
+      // instantiate Web3 with the injected provider
+      // @ts-ignore
+      const web3 = new Web3(window.ethereum);
 
-  useEffect(() => {
-    const getBalance = async (address: string) => {
-      const balance = await client.getBalance({
-        owner: address
-      })
-      setBalance(formatBalance(balance))
+      //request user to connect accounts (Metamask will prompt)
+      // @ts-ignore
+      await window.ethereum.request({method: 'eth_requestAccounts'});
+
+      //get the connected accounts
+      const accounts = await web3.eth.getAccounts();
+
+      //show the first connected account in the react page
+      setConnectedAccount(accounts[0]);
+    } else {
+      alert('Please download metamask');
     }
-    if (currentAccount && props.network) {
-      getBalance(currentAccount.address)
-    }
-  }, [currentAccount, props.network])
-
-
-  const formatBalance = (balance: CoinBalance) => {
-    return Number.parseInt(balance.totalBalance) / Number(MIST_PER_SUI)
   }
 
-  const onStartGame = (): void => {
-    const txb = new TransactionBlock()
-    const packageName: string = "rpg"
-    const functionName: string = "start_game"
-    txb.moveCall({
-      target: `${NETWORK_IDS[props.network].packageId}::${packageName}::${functionName}`,
-      // object IDs must be wrapped in moveCall arguments
-      arguments: [
-        txb.object(NETWORK_IDS[props.network].registryObjectId),
-      ],
-    })
-    signAndExecuteTransactionBlock(
+  const onStartGame = async (): Promise<void> => {
+    if (!connectedAccount) {
+      console.log("Not connected")
+      return
+    }
+    setIsGameStartLoading(true)
+    const response = await fetch(
+      "/api/startGame",
       {
-        transactionBlock: txb,
-        // chain: `sui:${process.env.NETWORK || "devnet"}`,
-        options: {
-          showObjectChanges: true
-        }
-      },
-      {
-        onSuccess: (result) => {
-          console.log("Executed transaction block");
-          console.log(result);
-          (result.objectChanges || []).forEach((o: any) => {
-            if (o.objectType.includes("Game") && !o.objectType.includes("GamesRegistry")) {
-              setGameId(o.objectId)
-            }
-          })
+        headers: {
+          "Content-Type": "application/json",
         },
-        onError: (error) => {
-          console.log("Transaction error")
-          console.log(error)
-        }
-      },
-    );
-  }
-
-  const SUI_ADDRESS_LENGTH: number = 32;
-
-  const isHex = (value: string): boolean => {
-    return /^(0x|0X)?[a-fA-F0-9]+$/.test(value) && value.length % 2 === 0;
-  }
-
-  const getHexByteLength = (value: string): number => {
-    return /^(0x|0X)/.test(value) ? (value.length - 2) / 2 : value.length / 2;
-  }
-
-  const isValidSuiAddress = (value: string): boolean => {
-    return isHex(value) && getHexByteLength(value) === SUI_ADDRESS_LENGTH;
-  }
-
-  const onSearch = (): void => {
-    if (searchInput) {
-      if (!isValidSuiAddress(searchInput)) {
-        setSearchErrorMessage("Invalid object ID")
-        return
+        method: 'POST',
+        body: JSON.stringify({
+          address: connectedAccount
+        }),
       }
-      setGameId(searchInput)
+    )
+    const {gameId} = await response.json()
+    if (gameId) {
+      setGameId(gameId)
     }
+    setIsGameStartLoading(false)
   }
-
 
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center gap-20 p-12 justify-between">
-        <div className="z-10 max-w-8xl w-full items-center justify-between font-mono text-sm lg:flex">
-          {currentAccount ?
-            <>
-              Account balance {balance}
-            </>
-            :
-            <>
-              Not connected
-            </>
-          }
-          <div
-            className="flex flex-col h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-            <div className="mx-auto pb-2">
-              Only regular wallets supported! (no zk support)
-            </div>
-            <div className="flex flex-row gap-4 items-center">
-              <ConnectButton
-                connectText={"Connect Wallet"}
-              />
-            </div>
-
-          </div>
-        </div>
-        <div className="w-full text-left">
-          <div className="pb-12">
-            Make sure your wallet is connected to
-            <span className="pl-2 font-bold">
-              {props.network}
-            </span>
-          </div>
-          <div>
-            Game contract address: {NETWORK_IDS[props.network].packageId}
-            <ExplorerLinks objectId={NETWORK_IDS[props.network].packageId} type={"object"} network={props.network}/>
-          </div>
-          <div className="pt-4">
-            Game registry object: {NETWORK_IDS[props.network].registryObjectId}
-            <ExplorerLinks objectId={NETWORK_IDS[props.network].registryObjectId} type={"object"}
-                           network={props.network}/>
-          </div>
-        </div>
+      {!connectedAccount &&
         <div
-          className="w-full items-center flex flex-col p-6 bg-gray-200 rounded-2xl text-black border-t-2 border-blue-300">
-          <div className="flex flex-row w-full gap-4">
+          className="absolute z-0"
+          style={{width: "100%", height: "100%", background: "url(fight.png) center center no-repeat"}}
+        />
+      }
+      <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
+        <div className="flex flex-row w-full justify-end p-6 lg:p-0">
+          <a
+            className="hover:underline cursor-pointer"
+            href="https://galadriel.com"
+            target="_blank"
+          >
+            About
+          </a>
+        </div>
 
-            <div className="basis-1/2 flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
-              {currentAccount ?
-                <>
-                  <div className="min-h-[24px] text-red-400">
-                    {agentErrorMessage}
-                  </div>
-                  <button
-                    className="p-2 px-4 rounded bg-gray-800 text-white hover:bg-gray-600 duration-200 focus:outline-none"
-                    onClick={() => onStartGame()}
-                  >
-                    Start Game
-                  </button>
-                </>
-                :
-                <div className="pt-8">Connect wallet to play the game!</div>
-              }
-            </div>
-
-            <div className="basis-1/2 flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
-              <div className="min-h-[24px] text-red-400">
-                {searchErrorMessage}
+        {!connectedAccount ?
+          <>
+            <div
+              className={"flex flex-col gap-6 text-center text-xl " + FONT.className}
+            >
+              <div className="text-7xl">
+                <div>
+                  Battle with on-chain AI “VitAIlik”
+                </div>
               </div>
-              <Input
-                value={searchInput}
-                placeholder="Existing game ID"
-                onChange={e => {
-                  setSearchInput(e.target.value)
-                  if (searchErrorMessage) setSearchErrorMessage("")
-                  if (agentErrorMessage) setAgentErrorMessage("")
-                }
-                }
-              />
-              <button
-                className="p-2 px-4 rounded bg-gray-800 text-white hover:bg-gray-600 duration-200 focus:outline-none"
-                onClick={() => onSearch()}
+              <div className="text-3xl">
+                and
+              </div>
+              <div
+                className="text-6xl"
               >
-                Search
-              </button>
+                win <span className="text-[#00FF66]">1000 USDC</span>
+              </div>
+              <div className="pt-[100px]">
+                <button
+                  onClick={() => connectWeb3()}
+                  className={"p-4 bg-[#00FF66] text-3xl text-black hover:bg-[#00b548] duration-200 " + FONT.className}
+                >
+                  Connect wallet to Battle
+                </button>
+              </div>
+              <div className="pt-10 flex flex-col gap-2">
+                <div>
+                  competition until end of ETH Denver
+                </div>
+                <div>
+                  no skills required
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          </>
+          :
+          <>
+            {!gameId ?
+              <>
+                <div
+                  className="bg-[#002360] p-5 lg:p-10 border-t-2 border-white"
+                >
+                  <div className="flex flex-row gap-4 max-w-[1000px]">
+                    <div className="lg:basis-4/5">
+                      <div className={"text-4xl " + FONT.className}>
+                        Ah, brave wanderer of ETH Denver, welcome to my realm!
+                      </div>
+                      <div className={"flex flex-col gap-8 p-2 pt-6"}>
+                        <div>
+                          I am VitAIlik, your AI foe and guardian of the Web3 galaxy!
+                        </div>
+                        <div>
+                          Your goal: drain my 10,000 HP before I deplete yours. Triumph, and your remaining HP boosts
+                          your
+                          score on the scoreboard, The highest scorer wins 1000 USDC by end of ETH Denver and eternal
+                          glory
+                          in the Web3 galaxy.
+                        </div>
+                        <div>
+                          Choose from four actions each turn but beware, every move is a double-edged sword. Choose
+                          wisely,
+                          for each action you take will influence the tide of battle, affecting both our HPs. Remember,
+                          in
+                          this arena, every move can lead to victory or defeat and every attack you unleash comes with
+                          its
+                          own risks.
+                        </div>
+                        <div>
+                          The crowd roars in anticipation. Ready your arms, brave challenger. Let the battle begin!
+                        </div>
+                        <div className="text-center pt-6">
+                          <button
+                            onClick={() => {
+                              if (!isGameStartLoading) {
+                                onStartGame()
+                              }
+                            }}
+                            className={"pl-12 pr-12 p-4 bg-[#00FF66] text-3xl text-black hover:bg-[#00b548] duration-200 " + FONT.className}
+                          >
+                            {isGameStartLoading ? "Loading" : "GO!"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="hidden lg:inline lg:basis-1/5">
+                      <img
+                        src="pxart.png"
+                        alt="pixels"
+                      />
+                    </div>
+
+                  </div>
+                </div>
+              </>
+              :
+              <>
+                <div
+                  className="flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
+
+                  {gameId &&
+                    <RunExplorer
+                      gameObjectId={gameId}
+                      network={props.network}
+                      connectedAccount={connectedAccount}
+                    />
+                  }
+                </div>
+              </>
+            }
+          </>
+        }
+
 
         <div
-          className="flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
-
-          {gameId && <RunExplorer gameObjectId={gameId} network={props.network}/>}
-        </div>
-
-        <div>
-          Copyright (c) 2024 Galadriel
+          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 " + FONT.className}>
+          <div className="text-left text-sm w-full">
+            <div>
+              <div className="hidden lg:inline">AI contract: {NETWORK_IDS[props.network].packageId}</div>
+              <div className="inline lg:hidden">AI contract: {NETWORK_IDS[props.network].packageId.slice(0, 10)}...
+              </div>
+              <ExplorerLinks
+                objectId={NETWORK_IDS[props.network].packageId}
+                type={"object"}
+                network={props.network}
+              />
+            </div>
+            <div className="pt-4">
+              <div className="hidden lg:inline">
+                AI registry object: {NETWORK_IDS[props.network].registryObjectId}
+              </div>
+              <div className="inline lg:hidden">
+                AI registry object: {NETWORK_IDS[props.network].registryObjectId.slice(0, 10)}...
+              </div>
+              <ExplorerLinks
+                objectId={NETWORK_IDS[props.network].registryObjectId}
+                type={"object"}
+                network={props.network}
+              />
+            </div>
+          </div>
+          <div className="pb-1">build on-chain AI with</div>
+          <a
+            className={"hover:underline cursor-pointer pl-2 text-6xl flex flex-col items-end" + FONT_BOLD.className}
+            href="https://galadriel.com"
+            target="_blank"
+          >
+            Galadriel
+          </a>
         </div>
       </main>
     </>

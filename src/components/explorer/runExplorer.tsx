@@ -5,11 +5,13 @@ import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network, NETWORK_IDS} from "@/types/network";
 import {TransactionBlock} from '@mysten/sui.js/transactions';
+import {FONT} from "@/fonts/fonts";
 
 
 interface Props {
   gameObjectId: string
   network: Network
+  connectedAccount: string
 }
 
 interface GamePrompt {
@@ -30,6 +32,7 @@ interface Game {
   id: string
   index: number
   player: string
+  ethAddress: string
   isFinished: boolean
   promptsId: string
   prompts: GamePrompt[]
@@ -39,7 +42,7 @@ interface Game {
 
 const SELECTIONS = ["A", "B", "C", "D"]
 
-export const RunExplorer = ({gameObjectId, network}: Props) => {
+export const RunExplorer = ({gameObjectId, network, connectedAccount}: Props) => {
   const client = useSuiClient()
 
   let [isLoading, setIsLoading] = useState<boolean>(false)
@@ -70,6 +73,7 @@ export const RunExplorer = ({gameObjectId, network}: Props) => {
         id: objectId,
         index: fields.index,
         player: fields.player,
+        ethAddress: fields.eth_address,
         isFinished: fields.is_finished,
         promptsId: fields.prompts.fields.id.id,
         prompts: [],
@@ -142,7 +146,12 @@ export const RunExplorer = ({gameObjectId, network}: Props) => {
   return <>
     <div className="flex flex-col gap-y-2 w-full pt-10 pb-32">
       {(gameRun && !isLoading) &&
-        <GameDisplay game={gameRun} network={network} onNewSelection={onNewSelection}/>
+        <GameDisplay
+          game={gameRun}
+          network={network}
+          onNewSelection={onNewSelection}
+          connectedAccount={connectedAccount}
+        />
       }
       {isLoading && <Loader/>}
     </div>
@@ -150,65 +159,52 @@ export const RunExplorer = ({gameObjectId, network}: Props) => {
   </>
 }
 
-const GameDisplay = ({game, network, onNewSelection}: {
+const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
   game: Game,
   network: Network,
-  onNewSelection: (selection: number) => void
+  onNewSelection: (selection: number) => void,
+  connectedAccount: string,
 }) => {
-  const currentAccount = useCurrentAccount()
-  const {mutate: signAndExecuteTransactionBlock} = useSignAndExecuteTransactionBlock();
 
   let [isSelectionLoading, setIsSelectionLoading] = useState<boolean>(false)
 
   const onSelection = async (selection: number): Promise<void> => {
     setIsSelectionLoading(true)
-    const txb = new TransactionBlock()
-    const packageName: string = "rpg"
-    const functionName: string = "add_game_answer"
-    txb.moveCall({
-      target: `${NETWORK_IDS[network].packageId}::${packageName}::${functionName}`,
-      // object IDs must be wrapped in moveCall arguments
-      arguments: [
-        txb.pure.u8(selection),
-        txb.object(NETWORK_IDS[network].registryObjectId),
-        txb.pure.u64(game.index),
-      ],
-    })
-    signAndExecuteTransactionBlock(
+    const response = await fetch(
+      "/api/selectGame",
       {
-        transactionBlock: txb,
-        // chain: `sui:${process.env.NETWORK || "devnet"}`,
-        options: {
-          showObjectChanges: true
-        }
-      },
-      {
-        onSuccess: (result) => {
-          console.log("Executed transaction block");
-          console.log(result);
-          setIsSelectionLoading(false)
-          onNewSelection(selection)
+        headers: {
+          "Content-Type": "application/json",
         },
-        onError: (error) => {
-          console.log("Transaction error")
-          console.log(error)
-          setIsSelectionLoading(false)
-        }
-      },
-    );
+        method: 'POST',
+        body: JSON.stringify({
+          selection: selection,
+          gameIndex: game.index,
+        }),
+      }
+    )
+    if (response.ok && (await response.json()).status) {
+      setIsSelectionLoading(false)
+      onNewSelection(selection)
+    } else {
+      setIsSelectionLoading(false)
+    }
   }
 
   return <>
-    <div className="bg-[#1c1a1a] rounded-2xl p-4 border-t-2 border-blue-300 border-opacity-50">
-
-      <h1 className="text-4xl font-semibold">Game details</h1>
+    <div className="bg-[#002360] p-4 border-t-2 border-white">
+      <h1 className={"text-4xl " + FONT.className}>
+        Game details
+      </h1>
       <div className="flex flex-col gap-5 pt-5">
-        <div className="flex flex-row gap-5">
-          <div><span className="text-blue-200">Object id:</span> {game.id}</div>
+        <div className="flex flex-col lg:flex-row gap-5">
+          <div className="hidden lg:inline">Object id: {game.id}</div>
+          <div className="inline lg:hidden">Object id: {game.id.slice(0, 10)}...</div>
           <ExplorerLinks objectId={game.id} type={"object"} network={network}/>
         </div>
-        <div className="flex flex-row gap-5">
-          <div><span className="text-blue-200">Owner:</span> {game.player}</div>
+        <div className="flex flex-col lg:flex-row gap-5">
+          <div className="hidden lg:inline">Player: {game.ethAddress}</div>
+          <div className="inline lg:hidden">Player: {game.ethAddress.slice(0, 10)}...</div>
           <ExplorerLinks objectId={game.player} type={"address"} network={network}/>
         </div>
         <div className="flex flex-row gap-5">
@@ -225,12 +221,13 @@ const GameDisplay = ({game, network, onNewSelection}: {
         {game.prompts.map((d, i) =>
           <div
             key={d.id}
-            className="flex flex-col gap-10 pt-10 border-t-2 border-blue-300 border-opacity-50 bg-[#1c1a1a] p-4 rounded-2xl"
+            className="flex flex-col gap-10 pt-10 border-t-2 bg-[#002360] p-1 lg:p-4 border-white"
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 p-4 lg:p-0">
               <div>Index: {d.index}</div>
-              <div className="flex flex-row gap-2 items-center">
-                <span className="text-xs">{d.id}</span>
+              <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center">
+                <span className="text-xs hidden lg:inline">Player: {d.id}</span>
+                <span className="text-xs inline lg:hidden">Player: {d.id.slice(0, 10)}...</span>
                 <ExplorerLinks objectId={d.id} type={"object"} network={network}/>
               </div>
             </div>
@@ -244,10 +241,10 @@ const GameDisplay = ({game, network, onNewSelection}: {
                 />
               }
             </div>
-            <div className="whitespace-pre-line rounded-2xl bg-[#141414] bg-opacity-80 p-4">
+            <div className="whitespace-pre-line bg-[#111723] bg-opacity-80 p-4">
               <div>{d.content}</div>
             </div>
-            {(!game.isFinished && game.userSelections.length < (i + 1) && currentAccount && currentAccount.address === game.player) &&
+            {(!game.isFinished && game.userSelections.length < (i + 1) && connectedAccount === game.ethAddress) &&
               <>
                 {isSelectionLoading ?
                   <Loader/>
@@ -270,6 +267,13 @@ const GameDisplay = ({game, network, onNewSelection}: {
         )}
 
         {(!game.isFinished && game.prompts.length == game.userSelections.length) && <Loader/>}
+        {game.isFinished &&
+          <div className="w-full text-center">
+            Thank you for playing!
+            <br/>
+            To play again just refresh the page!
+          </div>
+        }
       </>
       }
     </div>
@@ -280,7 +284,18 @@ const Selector = ({onSelection}: { onSelection: (selection: number) => Promise<v
 
   return <div className="flex flex-col gap-6 p-6">
     Choose your next step!
-    <div className="flex flex-row gap-12">
+    <div className="hidden lg:flex flex-row gap-12">
+      {SELECTIONS.map((selection: string, i: number) =>
+        <div
+          className="border-2 rounded p-4 cursor-pointer hover:bg-white hover:text-black duration-150"
+          key={`selection-${i}`}
+          onClick={() => onSelection(i)}
+        >
+          {selection}
+        </div>
+      )}
+    </div>
+    <div className="flex lg:hidden flex-col gap-12">
       {SELECTIONS.map((selection: string, i: number) =>
         <div
           className="border-2 rounded p-4 cursor-pointer hover:bg-white hover:text-black duration-150"

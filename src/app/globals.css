@@ -3,9 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 20, 20, 20;
-  --background-end-rgb: 20, 20, 20;
+  --foreground-rgb: #FFF;
+  --background-color: #11409d;
 }
 
 /*@media (prefers-color-scheme: dark) {*/
@@ -17,12 +16,12 @@
 /*}*/
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-  ) rgb(var(--background-start-rgb));
+  color: var(--foreground-rgb);
+  background: var(--background-color);
+}
+
+.title {
+
 }
 
 @layer utilities {
