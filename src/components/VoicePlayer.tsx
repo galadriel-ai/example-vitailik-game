@@ -20,7 +20,7 @@ const VoicePlayer: React.FC<VoicePlayerProps> = () => {
         playing={playing}
         loop={true}
       />
-      <a className="px-3 py-2 rounded-md font-medium text-brand-neongreen" onClick={togglePlay}>{playing ? "■ Pause" : "▶ Play"} message from VitAIlik</a>
+      <a className="px-3 py-2 rounded-md font-medium text-brand-neongreen" onClick={togglePlay}>{playing ? "⏸ Pause" : "▶ Play"}&nbsp;message from VitAIlik</a>
     </>
   );
 };

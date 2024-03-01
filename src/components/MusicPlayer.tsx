@@ -20,7 +20,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = () => {
         playing={playing}
         loop={true}
       />
-      <a className={"px-3 py-2 rounded-md text-lg " + (playing ? "" : "line-through")} onClick={togglePlay}>music</a>
+      <a className="px-3 py-2 rounded-md text-lg" onClick={togglePlay}>{playing ? "⏸ Pause" : "▶ Play"}&nbsp;music</a>
     </>
   );
 };
