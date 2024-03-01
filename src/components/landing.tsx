@@ -9,6 +9,7 @@ import {FONT, FONT_BOLD} from "@/fonts/fonts";
 import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount } from 'wagmi'
 import { BuildWithGaladriel } from "./buildwithgaladriel";
+import Addresses from "./addresses";
 
 interface Props {
   network: Network
@@ -200,23 +201,7 @@ export function Landing(props: Props) {
 
         <div
           className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0"}>
-          <div className="text-left text-sm w-full">
-            <div>
-              <div className="hidden lg:inline">AI contract: <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].packageId}?network=${props.network}`}>{NETWORK_IDS[props.network].packageId}</a></div>
-              <div className="inline lg:hidden">AI contract: <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].packageId}?network=${props.network}`}>{NETWORK_IDS[props.network].packageId.slice(0, 10)}...</a>
-              </div>
-            </div>
-            <div className="pt-4">
-              <div className="hidden lg:inline">
-                AI registry:&nbsp;
-                <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].registryObjectId}?network=${props.network}`}>{NETWORK_IDS[props.network].registryObjectId}</a>
-              </div>
-              <div className="inline lg:hidden">
-                AI registry:&nbsp;
-                <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].registryObjectId}?network=${props.network}`}>{NETWORK_IDS[props.network].registryObjectId.slice(0, 10)}...</a>
-              </div>
-            </div>
-          </div>
+          <Addresses network={props.network} />
           <BuildWithGaladriel />
         </div>
       </main>
