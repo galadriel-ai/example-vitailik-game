@@ -117,13 +117,13 @@ export function ScoreboardPage({network}: Props) {
                 Total HP
               </div>
               <div className="basis-1/6 text-center">
-                Total Turns
+                Turns
               </div>
               <div className="basis-1/6 text-center">
-                Total Games
+                Games
               </div>
               <div className="basis-1/6 text-center">
-                Total Points
+                Points
               </div>
               <div className="basis-1/6 text-center">
                 Last Game
@@ -137,7 +137,7 @@ export function ScoreboardPage({network}: Props) {
                 key={`score-${i}`}
                 className={"min-h-[40px] flex flex-row items-center" + (i === 0 ? " text-brand-neongreen font-bold" : "") + (i % 2 !== 0 ? " bg-white text-black" : "")}
               >
-                <div className="basis-1/4 text-center">
+                <div className="basis-1/6 text-center">
                   <a
                     href={`https://etherscan.io/address/${s.ethAddress}`}
                     target="_blank"
