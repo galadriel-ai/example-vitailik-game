@@ -223,7 +223,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
             {(!game.isFinished && game.userSelections.length < (i + 1) && connectedAccount === game.ethAddress) &&
               <>
                 {isSelectionLoading ?
-                  <ProgressBar duration={10} message="Waiting for VitAIlik's response..." />
+                  <ProgressBar duration={10} message="Executing your choice..." />
                   :
                   <Selector onSelection={onSelection}/>
                 }
@@ -242,7 +242,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
           </div>
         )}
 
-        {(!game.isFinished && game.prompts.length == game.userSelections.length) && <ProgressBar duration={10} message="Preparing your game..." />}
+        {(!game.isFinished && game.prompts.length == game.userSelections.length) && <ProgressBar duration={10} message="Waiting for VitAIlik's move..." />}
         {game.isFinished &&
           <div className="w-full text-center">
             Thank you for playing!
