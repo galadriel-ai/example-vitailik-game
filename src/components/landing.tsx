@@ -16,7 +16,7 @@ interface Props {
 export function Landing(props: Props) {
   const [connectedAccount, setConnectedAccount] = useState<string>("");
 
-  const [agentErrorMessage, setAgentErrorMessage] = useState<string>("")
+  const [isGameStartLoading, setIsGameStartLoading] = useState<boolean>(false)
 
   // 0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af
   // TODO: revert
@@ -49,6 +49,7 @@ export function Landing(props: Props) {
       console.log("Not connected")
       return
     }
+    setIsGameStartLoading(true)
     const response = await fetch(
       "/api/startGame",
       {
@@ -65,6 +66,7 @@ export function Landing(props: Props) {
     if (gameId) {
       setGameId(gameId)
     }
+    setIsGameStartLoading(false)
   }
 
   return (
@@ -159,10 +161,14 @@ export function Landing(props: Props) {
                         </div>
                         <div className="text-center pt-6">
                           <button
-                            onClick={() => onStartGame()}
+                            onClick={() => {
+                              if (!isGameStartLoading) {
+                                onStartGame()
+                              }
+                            }}
                             className={"pl-12 pr-12 p-4 bg-[#00FF66] text-3xl text-black hover:bg-[#00b548] duration-200 " + FONT.className}
                           >
-                            GO!
+                            {isGameStartLoading ? "Loading" : "GO!"}
                           </button>
                         </div>
                       </div>
