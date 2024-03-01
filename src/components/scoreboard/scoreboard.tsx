@@ -2,9 +2,7 @@ import {useEffect, useState} from "react"
 import {useSuiClient} from "@mysten/dapp-kit"
 // @ts-ignore
 import {SuiParsedData} from "@mysten/sui.js/src/types"
-import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network, NETWORK_IDS} from "@/types/network";
-import {FONT, FONT_BOLD} from "@/fonts/fonts";
 import { BuildWithGaladriel } from "../buildwithgaladriel";
 import {Loader} from "@/components/Loader";
 import Addresses from "../addresses";
@@ -80,59 +78,64 @@ export function ScoreboardPage({network}: Props) {
     <>
       <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
 
-        <div
-          className="bg-brand-bluedark p-0 border-t-2 border-white w-full max-w-[1000px] pt-2 pb-2"
-        >
-          <div
-            className="min-h-[40px] flex flex-row justify-between"
-          >
-            <div className="basis-1/4 text-center">
-              Player
-            </div>
-            <div className="basis-1/4 text-center">
-              HP
-            </div>
-            <div className="basis-1/4 text-center">
-              Turns
-            </div>
-            <div className="basis-1/4 text-center">
-              Game
-            </div>
+        <div>
+          <div className="text-6xl font-PPMondwest my-10">
+            scoreboard to win <span className="text-[#00FF66]">1000 USDC</span>
           </div>
-          {scores.length === 0 && <div className="flex flex-col items-center p-10">
-            <Loader/>
-          </div>}
-          {scores.map((s: Score, i: number) =>
+          <div
+            className="bg-brand-bluedark p-0 border-t-2 border-white w-full max-w-[1000px] pt-2 pb-2"
+          >
             <div
-              key={`score-${i}`}
-              className={"min-h-[40px] flex flex-row items-center" + (i === 0 ? " text-brand-neongreen" : "") + (i % 2 !== 0 ? " bg-white text-black" : "")}
+              className="min-h-[40px] flex flex-row justify-between"
             >
               <div className="basis-1/4 text-center">
-                <a
-                  href={`https://etherscan.io/address/${s.ethAddress}`}
-                  target="_blank"
-                  className="hover:underline"
-                >
-                  {s.ethAddress.slice(0, 7)}...
-                </a>
+                Player
               </div>
               <div className="basis-1/4 text-center">
-                {s.hpLeft}
+                HP
               </div>
               <div className="basis-1/4 text-center">
-                {s.turns}
+                Turns
               </div>
               <div className="basis-1/4 text-center">
-                <a
-                  href={`https://suiscan.com/object/${s.id}?network=${network}`}
-                  target={"_blank"}
-                  className="hover:underline"
-                >
-                  Suiscan
-                </a>
+                Game
               </div>
             </div>
-          )}
+            {scores.length === 0 && <div className="flex flex-col items-center p-10">
+              <Loader/>
+            </div>}
+            {scores.map((s: Score, i: number) =>
+              <div
+                key={`score-${i}`}
+                className={"min-h-[40px] flex flex-row items-center" + (i === 0 ? " text-brand-neongreen font-bold" : "") + (i % 2 !== 0 ? " bg-white text-black" : "")}
+              >
+                <div className="basis-1/4 text-center">
+                  <a
+                    href={`https://etherscan.io/address/${s.ethAddress}`}
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    {s.ethAddress.slice(0, 7)}...
+                  </a>
+                </div>
+                <div className="basis-1/4 text-center">
+                  {s.hpLeft}
+                </div>
+                <div className="basis-1/4 text-center">
+                  {s.turns}
+                </div>
+                <div className="basis-1/4 text-center">
+                  <a
+                    href={`https://suiscan.com/object/${s.id}?network=${network}`}
+                    target={"_blank"}
+                    className="hover:underline"
+                  >
+                    Suiscan
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         <div
