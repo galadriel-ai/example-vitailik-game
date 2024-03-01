@@ -102,7 +102,7 @@ export function ScoreboardPage({network}: Props) {
               </div>
             </div>
             {scores.length === 0 && <div className="flex flex-col items-center p-10">
-              <ProgressBar duration={10} />
+              <ProgressBar duration={4} message="Fetching scoreboard..."/>
             </div>}
             {scores.map((s: Score, i: number) =>
               <div

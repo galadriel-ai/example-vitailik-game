@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 
 interface ProgressBarProps {
   duration: number; // Total duration of progress in seconds
+  message: string;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ duration }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = ({ duration, message }) => {
   const [progress, setProgress] = useState(1);
 
   useEffect(() => {
@@ -27,12 +28,15 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ duration }) => {
   }, [duration]);
 
   return (
-    <div className="w-full bg-white h-2.5 dark:bg-gray-700">
-      <div
-        className="bg-brand-neongreen h-2.5"
-        style={{ width: `${progress}%` }}
-      ></div>
-    </div>
+    <>
+      <p>{message}</p>
+      <div className="w-full bg-white h-2.5 dark:bg-gray-700">
+        <div
+          className="bg-brand-neongreen h-2.5"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+    </>
   );
 };
 
