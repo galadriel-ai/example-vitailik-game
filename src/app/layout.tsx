@@ -34,8 +34,10 @@ export default function RootLayout(
     <html lang="en">
     <body className={plexmono.className}>
     <ContextProvider initialState={initialState}>
-      <Navbar />
-      {children}
+      <div className="h-screen bg-fight bg-no-repeat bg-contain bg-center ">
+        <Navbar />
+        {children}
+      </div>
     </ContextProvider>
     </body>
     </html>

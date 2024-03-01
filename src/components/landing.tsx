@@ -78,7 +78,7 @@ export function Landing(props: Props) {
       {!address &&
         <div
           className="absolute z-0"
-          style={{width: "100%", height: "100%", background: "url(fight.png) center center no-repeat"}}
+          style={{width: "100%", height: "100%"}}
         />
       }
       <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
@@ -125,7 +125,7 @@ export function Landing(props: Props) {
             {!gameId ?
               <>
                 <div
-                  className="bg-[#002360] p-5 lg:p-10 border-t-2 border-white"
+                  className="bg-brand-bluedark p-5 lg:p-10 border-t-2 border-white"
                 >
                   <div className="flex flex-row gap-4 max-w-[1000px]">
                     <div className="lg:basis-4/5">
@@ -171,7 +171,7 @@ export function Landing(props: Props) {
                     </div>
                     <div className="hidden lg:inline lg:basis-1/5">
                       <img
-                        src="pxart.png"
+                        src="/vitailik.png"
                         alt="pixels"
                       />
                     </div>
