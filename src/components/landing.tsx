@@ -130,36 +130,43 @@ export function Landing(props: Props) {
                 <div
                   className="bg-brand-bluedark p-5 lg:p-10 border-t-2 border-white"
                 >
-                  <div className="flex flex-row gap-4 max-w-[1000px]">
-                    <div className="lg:basis-4/5">
+                  <div className="max-w-[1000px]">
+                    <div className="">
                       <div className={"text-4xl " + FONT.className}>
                         Ah, brave wanderer of ETH Denver, welcome to my realm!
                       </div>
-                      <div className={"flex flex-col gap-8 p-2 pt-6"}>
+                      <div className={"p-2 pt-6"}>
                         <div>
                           <VoicePlayer />
                         </div>
-                        <div>
-                          I am VitAIlik, your AI foe and guardian of the Web3 galaxy!
-                        </div>
-                        <div>
-                          Your goal: drain my 10,000 HP before I deplete yours. Triumph, and your remaining HP boosts
-                          your
-                          score on the scoreboard, The highest scorer wins 1000 USDC by end of ETH Denver and eternal
-                          glory
-                          in the Web3 galaxy.
-                        </div>
-                        <div>
-                          Choose from four actions each turn but beware, every move is a double-edged sword. Choose
-                          wisely,
-                          for each action you take will influence the tide of battle, affecting both our HPs. Remember,
-                          in
-                          this arena, every move can lead to victory or defeat and every attack you unleash comes with
-                          its
-                          own risks.
-                        </div>
-                        <div>
-                          The crowd roars in anticipation. Ready your arms, brave challenger. Let the battle begin!
+                        <img
+                          className="w-full h-auto md:float-right md:w-1/3 md:pl-2"
+                          src="/vitailik.png"
+                          alt="pixels"
+                        />
+                        <div className="md:w-2/3">
+                          <div className="my-5">
+                            I am VitAIlik, your AI foe and guardian of the Web3 galaxy!
+                          </div>
+                          <div className="my-5">
+                            Your goal: drain my 10,000 HP before I deplete yours. Triumph, and your remaining HP boosts
+                            your
+                            score on the scoreboard, The highest scorer wins 1000 USDC by end of ETH Denver and eternal
+                            glory
+                            in the Web3 galaxy.
+                          </div>
+                          <div className="my-5">
+                            Choose from four actions each turn but beware, every move is a double-edged sword. Choose
+                            wisely,
+                            for each action you take will influence the tide of battle, affecting both our HPs. Remember,
+                            in
+                            this arena, every move can lead to victory or defeat and every attack you unleash comes with
+                            its
+                            own risks.
+                          </div>
+                          <div className="my-5">
+                            The crowd roars in anticipation. Ready your arms, brave challenger. Let the battle begin!
+                          </div>
                         </div>
                         <div className="text-center pt-6">
                           <button
@@ -175,13 +182,6 @@ export function Landing(props: Props) {
                         </div>
                       </div>
                     </div>
-                    <div className="hidden lg:inline lg:basis-1/5">
-                      <img
-                        src="/vitailik.png"
-                        alt="pixels"
-                      />
-                    </div>
-
                   </div>
                 </div>
               </>
