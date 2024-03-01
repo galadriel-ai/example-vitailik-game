@@ -81,7 +81,7 @@ export function ScoreboardPage({network}: Props) {
       <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
 
         <div
-          className="bg-[#002360] p-0 border-t-2 border-white w-full max-w-[1000px] pt-2 pb-2"
+          className="bg-brand-bluedark p-0 border-t-2 border-white w-full max-w-[1000px] pt-2 pb-2"
         >
           <div
             className="min-h-[40px] flex flex-row justify-between"
@@ -105,7 +105,7 @@ export function ScoreboardPage({network}: Props) {
           {scores.map((s: Score, i: number) =>
             <div
               key={`score-${i}`}
-              className={"min-h-[40px] flex flex-row items-center " + (i === 0 ? "text-green-400 " : "") + (i % 2 !== 0 ? "bg-white text-black " : "")}
+              className={"min-h-[40px] flex flex-row items-center" + (i === 0 ? " text-brand-neongreen" : "") + (i % 2 !== 0 ? " bg-white text-black" : "")}
             >
               <div className="basis-1/4 text-center">
                 <a
