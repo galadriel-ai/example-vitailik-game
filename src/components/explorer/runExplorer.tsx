@@ -5,7 +5,7 @@ import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network} from "@/types/network";
 import {FONT} from "@/fonts/fonts";
-import {Loader} from "@/components/Loader";
+import ProgressBar from "../ProgressBar";
 
 
 interface Props {
@@ -153,7 +153,7 @@ export const RunExplorer = ({gameObjectId, network, connectedAccount}: Props) =>
           connectedAccount={connectedAccount}
         />
       }
-      {isLoading && <Loader/>}
+      {isLoading && <ProgressBar duration={10} message="Starting game..."/>}
     </div>
 
   </>
@@ -192,30 +192,6 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
   }
 
   return <>
-    <div className="bg-brand-bluedark p-4 border-t-2 border-white">
-      <h1 className={"text-4xl " + FONT.className}>
-        Game details
-      </h1>
-      <div className="flex flex-col gap-5 pt-5">
-        <div className="flex flex-col lg:flex-row gap-5">
-          <div className="hidden lg:inline">Object id: {game.id}</div>
-          <div className="inline lg:hidden">Object id: {game.id.slice(0, 10)}...</div>
-          <ExplorerLinks objectId={game.id} type={"object"} network={network}/>
-        </div>
-        <div className="flex flex-col lg:flex-row gap-5">
-          <div className="hidden lg:inline">Player: {game.ethAddress}</div>
-          <div className="inline lg:hidden">Player: {game.ethAddress.slice(0, 10)}...</div>
-          <ExplorerLinks objectId={game.player} type={"address"} network={network}/>
-        </div>
-        <div className="flex flex-row gap-5">
-
-        </div>
-        <div className="flex flex-row gap-5">
-          <div><span className="text-blue-200">Status:</span> {game.isFinished ? "Finished" : "Running"}</div>
-        </div>
-      </div>
-    </div>
-
     <div className="flex flex-col gap-y-10 pt-10">
       {game && <>
         {game.prompts.map((d, i) =>
@@ -247,7 +223,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
             {(!game.isFinished && game.userSelections.length < (i + 1) && connectedAccount === game.ethAddress) &&
               <>
                 {isSelectionLoading ?
-                  <Loader/>
+                  <ProgressBar duration={10} message="Waiting for VitAIlik's response..." />
                   :
                   <Selector onSelection={onSelection}/>
                 }
@@ -266,7 +242,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
           </div>
         )}
 
-        {(!game.isFinished && game.prompts.length == game.userSelections.length) && <Loader/>}
+        {(!game.isFinished && game.prompts.length == game.userSelections.length) && <ProgressBar duration={10} message="Preparing your game..." />}
         {game.isFinished &&
           <div className="w-full text-center">
             Thank you for playing!
@@ -276,6 +252,31 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
         }
       </>
       }
+      
+      <div className="bg-brand-bluedark p-4 border-t-2 border-white">
+      <h1 className={"text-4xl " + FONT.className}>
+        Game details
+      </h1>
+      <div className="flex flex-col gap-5 pt-5">
+        <div className="flex flex-col lg:flex-row gap-5">
+          <div className="hidden lg:inline">Object id: {game.id}</div>
+          <div className="inline lg:hidden">Object id: {game.id.slice(0, 10)}...</div>
+          <ExplorerLinks objectId={game.id} type={"object"} network={network}/>
+        </div>
+        <div className="flex flex-col lg:flex-row gap-5">
+          <div className="hidden lg:inline">Player: {game.ethAddress}</div>
+          <div className="inline lg:hidden">Player: {game.ethAddress.slice(0, 10)}...</div>
+          <ExplorerLinks objectId={game.player} type={"address"} network={network}/>
+        </div>
+        <div className="flex flex-row gap-5">
+
+        </div>
+        <div className="flex flex-row gap-5">
+          <div><span className="text-blue-200">Status:</span> {game.isFinished ? "Finished" : "Running"}</div>
+        </div>
+      </div>
+    </div>
+
     </div>
   </>
 }
