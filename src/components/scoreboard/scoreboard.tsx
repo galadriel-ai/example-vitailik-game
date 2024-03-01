@@ -122,7 +122,13 @@ export function ScoreboardPage({network}: Props) {
               className={"min-h-[40px] flex flex-row items-center " + (i === 0 ? "text-green-400 " : "") + (i % 2 !== 0 ? "bg-white text-black " : "")}
             >
               <div className="basis-1/4 text-center">
-                {s.ethAddress.slice(0, 10)}...
+                <a
+                  href={`https://etherscan.io/address/${s.ethAddress}`}
+                  target="_blank"
+                  className="hover:underline"
+                >
+                  {s.ethAddress.slice(0, 10)}...
+                </a>
               </div>
               <div className="basis-1/4 text-center">
                 {s.hpLeft}
@@ -134,7 +140,7 @@ export function ScoreboardPage({network}: Props) {
                 <a
                   href={`https://suiscan.com/object/${s.id}?network=${network}`}
                   target={"_blank"}
-                  className="underline"
+                  className="hover:underline"
                 >
                   Suiscan.com
                 </a>
