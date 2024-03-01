@@ -12,10 +12,12 @@ interface Props {
 }
 
 interface Score {
-  id: string
-  ethAddress: string
-  hpLeft: number
-  turns: number
+  lastGame: string
+  ethAddress: string;
+  score: number;
+  totalHp: number;
+  totalTurns: number;
+  gamesPlayed: number;
 }
 
 export function ScoreboardPage({network}: Props) {
@@ -54,25 +56,45 @@ export function ScoreboardPage({network}: Props) {
   }
 
   const getTableData = async (objectId: string): Promise<Score[]> => {
-    const dynamicFields = await client.getDynamicFields({
-      parentId: objectId,
-    })
-    const scores: Score[] = []
+    const dynamicFields = await client.getDynamicFields({ parentId: objectId });
+    const ethAddressData: { [key: string]: { gamesPlayed: number; totalHp: number; totalTurns: number, lastGame: string } } = {};
+  
     for (const d of dynamicFields.data) {
-      const object = await getObject(d.objectId)
-      const content: SuiParsedData | null | undefined = object.data?.content
+      const object = await getObject(d.objectId);
+      const content: SuiParsedData | null | undefined = object.data?.content;
+  
       if (content && ((content["fields"] || {})["value"] || {})["fields"]) {
-        const fields = content["fields"]["value"]["fields"]
-        scores.push({
-          id: d.objectId,
-          ethAddress: fields.eth_address,
-          hpLeft: parseInt(fields.hp_left),
-          turns: parseInt(fields.turns),
-        })
+        const fields = content["fields"]["value"]["fields"];
+        const ethAddress = fields.eth_address;
+        const hpLeft = parseInt(fields.hp_left);
+        const turns = parseInt(fields.turns);
+  
+        // Initialize data for new ethAddress
+        if (!ethAddressData[ethAddress]) {
+          ethAddressData[ethAddress] = { gamesPlayed: 0, totalHp: 0, totalTurns: 0, lastGame: ""};
+        }
+  
+        // Update totals and counts
+        ethAddressData[ethAddress].gamesPlayed += 1;
+        ethAddressData[ethAddress].totalHp += hpLeft;
+        ethAddressData[ethAddress].totalTurns += turns;
+        ethAddressData[ethAddress].lastGame = d.objectId;
       }
     }
-    return scores.sort((d1, d2) => (d2.hpLeft - d1.hpLeft) || (d1.turns - d2.turns))
-  }
+  
+    // Convert the accumulated data into the final scores array, including total HP and total turns
+    const scores = Object.entries(ethAddressData).map(([ethAddress, data]) => ({
+      ethAddress,
+      score: Math.floor(data.totalHp / data.totalTurns * data.gamesPlayed),
+      totalHp: data.totalHp,
+      totalTurns: data.totalTurns,
+      lastGame: data.lastGame,
+      gamesPlayed: data.gamesPlayed,
+    }));
+  
+    // Optionally, sort the scores if needed
+    return scores.sort((a, b) => b.score - a.score);
+  };
 
   return (
     <>
@@ -88,17 +110,23 @@ export function ScoreboardPage({network}: Props) {
             <div
               className="min-h-[40px] flex flex-row justify-between"
             >
-              <div className="basis-1/4 text-center">
+              <div className="basis-1/6 text-center">
                 Player
               </div>
-              <div className="basis-1/4 text-center">
-                HP
+              <div className="basis-1/6 text-center">
+                Total HP
               </div>
-              <div className="basis-1/4 text-center">
-                Turns
+              <div className="basis-1/6 text-center">
+                Total Turns
               </div>
-              <div className="basis-1/4 text-center">
-                Game
+              <div className="basis-1/6 text-center">
+                Total Games
+              </div>
+              <div className="basis-1/6 text-center">
+                Total Points
+              </div>
+              <div className="basis-1/6 text-center">
+                Last Game
               </div>
             </div>
             {scores.length === 0 && <div className="flex flex-col items-center p-10">
@@ -118,15 +146,21 @@ export function ScoreboardPage({network}: Props) {
                     {s.ethAddress.slice(0, 7)}...
                   </a>
                 </div>
-                <div className="basis-1/4 text-center">
-                  {s.hpLeft}
+                <div className="basis-1/6 text-center">
+                  {s.totalHp}
                 </div>
-                <div className="basis-1/4 text-center">
-                  {s.turns}
+                <div className="basis-1/6 text-center">
+                  {s.totalTurns}
                 </div>
-                <div className="basis-1/4 text-center">
+                <div className="basis-1/6 text-center">
+                  {s.gamesPlayed}
+                </div>
+                <div className="basis-1/6 text-center">
+                  {s.score}
+                </div>
+                <div className="basis-1/6 text-center">
                   <a
-                    href={`https://suiscan.com/object/${s.id}?network=${network}`}
+                    href={`https://suiscan.com/object/${s.lastGame}?network=${network}`}
                     target={"_blank"}
                     className="hover:underline"
                   >
