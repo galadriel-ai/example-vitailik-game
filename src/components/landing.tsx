@@ -20,8 +20,8 @@ export function Landing(props: Props) {
 
   // 0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af
   // TODO: revert
-  // const [gameId, setGameId] = useState<string | undefined>()
-  const [gameId, setGameId] = useState<string | undefined>("0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af")
+  const [gameId, setGameId] = useState<string | undefined>()
+  // const [gameId, setGameId] = useState<string | undefined>("0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af")
 
   const connectWeb3 = async (): Promise<void> => {
     // @ts-ignore
