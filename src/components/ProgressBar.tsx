@@ -29,7 +29,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ duration, message }) =
 
   return (
     <>
-      <p>{message}</p>
+      <p className='mb-2'>{message}</p>
       <div className="w-full bg-white h-2.5 dark:bg-gray-700">
         <div
           className="bg-brand-neongreen h-2.5"
