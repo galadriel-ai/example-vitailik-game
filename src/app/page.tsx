@@ -22,7 +22,7 @@ const {networkConfig} = createNetworkConfig({
 });
 
 const queryClient = new QueryClient()
-const DEFAULT_NETWORK: Network = "mainnet"
+const DEFAULT_NETWORK: Network = "devnet"
 
 export default function Home() {
 

@@ -27,8 +27,8 @@ type NetworkIds = {
 }
 export const NETWORK_IDS: { mainnet: NetworkIds,devnet: NetworkIds, localnet: NetworkIds } = {
   mainnet: {
-    packageId: process.env.NEXT_PUBLIC_PACKAGE_ID || "",
-    registryObjectId: process.env.NEXT_PUBLIC_REGISTRY_OBJECT_ID || "",
+    packageId: process.env.NEXT_PUBLIC_MAINNET_PACKAGE_ID || "",
+    registryObjectId: process.env.NEXT_PUBLIC_MAINNET_REGISTRY_OBJECT_ID || "",
     scoreboardObjectId: process.env.NEXT_PUBLIC_MAINNET_SCOREBOARD_OBJECT_ID || "",
   },
   devnet: {
