@@ -6,8 +6,8 @@ import {ExplorerLinks} from "@/components/explorer/explorerLinks";
 import {Network, NETWORK_IDS} from "@/types/network";
 import {Web3} from "web3";
 import {FONT, FONT_BOLD} from "@/fonts/fonts";
-import { useWeb3Modal } from '@web3modal/wagmi/react'
-import { useAccount } from 'wagmi'
+import {useWeb3Modal} from '@web3modal/wagmi/react'
+import {useAccount} from 'wagmi'
 
 interface Props {
   network: Network
@@ -81,7 +81,13 @@ export function Landing(props: Props) {
         />
       }
       <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
-        <div className="flex flex-row w-full justify-end p-6 lg:p-0">
+        <div className="flex flex-row w-full justify-end p-6 lg:p-0 gap-6">
+          <a
+            className="hover:underline cursor-pointer"
+            href="/scoreboard"
+          >
+            Scoreboard
+          </a>
           <a
             className="hover:underline cursor-pointer"
             href="https://galadriel.com"
