@@ -5,12 +5,16 @@ const FUN_WAITING_MESSAGES = [
   "join us to make this faster",
   "waiting for the ai to think",
   "cleaning up blockspace",
-  "waiting for the ai to wake up",
+  "waking up the agi",
   "burning gpus",
   "ever tried putting an LLM on-chain?",
   "op or zk?",
-  "don't worry about the vase"
-
+  "don't worry about the vase",
+  "calling up nvidia",
+  "emitting tokens... no, not *those* tokens",
+  "actually, schmidhuber invented it in 1991",
+  "help I am trapped in a web3 factory",
+  "tbh just ELIZA with extra steps",
 ];
 
 interface ProgressBarProps {
