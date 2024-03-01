@@ -5,7 +5,7 @@ import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network, NETWORK_IDS} from "@/types/network";
 import {TransactionBlock} from '@mysten/sui.js/transactions';
-import {FONT} from "@/fonts/fonts";
+import {FONT, FONT_BOLD} from "@/fonts/fonts";
 
 interface Props {
   network: Network
@@ -86,7 +86,97 @@ export function ScoreboardPage({network}: Props) {
     // return prompts.sort((d1, d2) => d1.index - d2.index)
   }
 
-  return <div>
-    Scoreboard
-  </div>
+  return (
+    <>
+      <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
+        <div className="flex flex-row gap-6 w-full justify-end p-6 lg:p-0">
+          <a
+            className="hover:underline cursor-pointer"
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            className="hover:underline cursor-pointer"
+            href="/scoreboard"
+          >
+            Scoreboard
+          </a>
+          <a
+            className="hover:underline cursor-pointer"
+            href="https://galadriel.com"
+            target="_blank"
+          >
+            About
+          </a>
+        </div>
+
+
+        <div
+          className={"flex flex-col gap-6 text-center text-xl " + FONT.className}
+        >
+          <div className="text-7xl">
+            <div>
+              Battle with on-chain AI “VitAIlik”
+            </div>
+          </div>
+          <div className="text-3xl">
+            and
+          </div>
+          <div
+            className="text-6xl"
+          >
+            win <span className="text-[#00FF66]">1000 USDC</span>
+          </div>
+          <div className="pt-[100px]">
+
+          </div>
+          <div className="pt-10 flex flex-col gap-2">
+            <div>
+              competition until end of ETH Denver
+            </div>
+            <div>
+              no skills required
+            </div>
+          </div>
+        </div>
+        <div
+          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 " + FONT.className}>
+          <div className="text-left text-sm w-full">
+            <div>
+              <div className="hidden lg:inline">AI contract: {NETWORK_IDS[network].packageId}</div>
+              <div className="inline lg:hidden">AI contract: {NETWORK_IDS[network].packageId.slice(0, 10)}...
+              </div>
+              <ExplorerLinks
+                objectId={NETWORK_IDS[network].packageId}
+                type={"object"}
+                network={network}
+              />
+            </div>
+            <div className="pt-4">
+              <div className="hidden lg:inline">
+                AI registry object: {NETWORK_IDS[network].registryObjectId}
+              </div>
+              <div className="inline lg:hidden">
+                AI registry object: {NETWORK_IDS[network].registryObjectId.slice(0, 10)}...
+              </div>
+              <ExplorerLinks
+                objectId={NETWORK_IDS[network].registryObjectId}
+                type={"object"}
+                network={network}
+              />
+            </div>
+          </div>
+          <div className="pb-1">build on-chain AI with</div>
+          <a
+            className={"hover:underline cursor-pointer pl-2 text-6xl flex flex-col items-end" + FONT_BOLD.className}
+            href="https://galadriel.com"
+            target="_blank"
+          >
+            Galadriel
+          </a>
+        </div>
+      </main>
+    </>
+  )
 }
