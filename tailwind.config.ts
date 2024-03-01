@@ -17,6 +17,8 @@ const config: Config = {
       PPNeueBit: ['PPNeueBit-Bold', 'sans-serif'],
     },
     colors: {
+      black: "#000",
+      white: "#fff",
       brand: {
         blue: "#0657e0",
         bluedark: "#002360",
