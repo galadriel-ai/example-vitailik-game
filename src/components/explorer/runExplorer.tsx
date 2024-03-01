@@ -199,25 +199,16 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
             key={d.id}
             className="flex flex-col gap-10 pt-10 border-t-2 bg-brand-bluedark p-1 lg:p-4 border-white"
           >
-            <div className="flex flex-col gap-2 p-4 lg:p-0">
-              <div>Index: {d.index}</div>
-              <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center">
-                <span className="text-xs hidden lg:inline">Player: {d.id}</span>
-                <span className="text-xs inline lg:hidden">Player: {d.id.slice(0, 10)}...</span>
-                <ExplorerLinks objectId={d.id} type={"object"} network={network}/>
-              </div>
-            </div>
-            <div className="mx-auto pt-10">
+            <div className="whitespace-pre-line bg-[#111723] bg-opacity-80 p-4">
               {d.imageUrl &&
                 <img
+                  className="mx-auto pt-10 float-right h-auto w-64 lg:w-96 xl:w-1/3"
                   src={d.imageUrl}
                   alt={`Story illustration ${i}`}
                   width={1000}
                   height={1000}
                 />
               }
-            </div>
-            <div className="whitespace-pre-line bg-[#111723] bg-opacity-80 p-4">
               <div>{d.content}</div>
             </div>
             {(!game.isFinished && game.userSelections.length < (i + 1) && connectedAccount === game.ethAddress) &&
@@ -239,6 +230,14 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
                 </div>
               </div>
             }
+            <div className="flex flex-col gap-2 p-4 lg:p-0">
+              <div>Index: {d.index}</div>
+              <div className="flex flex-col lg:flex-row gap-2 items-start lg:items-center">
+                <span className="text-xs hidden lg:inline">Player: {d.id}</span>
+                <span className="text-xs inline lg:hidden">Player: {d.id.slice(0, 10)}...</span>
+                <ExplorerLinks objectId={d.id} type={"object"} network={network}/>
+              </div>
+            </div>
           </div>
         )}
 
