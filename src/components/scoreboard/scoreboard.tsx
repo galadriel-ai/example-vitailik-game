@@ -1,14 +1,21 @@
 import {useEffect, useState} from "react"
-import {useCurrentAccount, useSuiClient, useSignAndExecuteTransactionBlock} from "@mysten/dapp-kit"
+import {useSuiClient} from "@mysten/dapp-kit"
 // @ts-ignore
 import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network, NETWORK_IDS} from "@/types/network";
-import {TransactionBlock} from '@mysten/sui.js/transactions';
 import {FONT, FONT_BOLD} from "@/fonts/fonts";
+import {Loader} from "@/components/Loader";
 
 interface Props {
   network: Network
+}
+
+interface Score {
+  id: string
+  ethAddress: string
+  hpLeft: number
+  turns: number
 }
 
 export function ScoreboardPage({network}: Props) {
@@ -16,6 +23,8 @@ export function ScoreboardPage({network}: Props) {
 
   let [isLoading, setIsLoading] = useState<boolean>(false)
   let [scoreboard, setScoreboard] = useState<any | undefined>()
+
+  let [scores, setScores] = useState<Score[]>([])
 
   useEffect(() => {
     if (!scoreboard && !isLoading) {
@@ -29,28 +38,9 @@ export function ScoreboardPage({network}: Props) {
     const object = await getObject(NETWORK_IDS[network].scoreboardObjectId);
     const content: SuiParsedData | null | undefined = object.data?.content
     if (content && content["fields"]) {
-      const fields = content["fields"]
-      const tableId = fields.id.id
-      await getTableData(tableId)
-      // const gameRun: Game = {
-      //   id: objectId,
-      //   index: fields.index,
-      //   player: fields.player,
-      //   ethAddress: fields.eth_address,
-      //   isFinished: fields.is_finished,
-      //   promptsId: fields.prompts.fields.id.id,
-      //   prompts: [],
-      //   userSelectionsId: fields.user_selections.fields.id.id,
-      //   userSelections: []
-      // }
-      // gameRun.prompts = await getGamePrompts(gameRun.promptsId)
-      // gameRun.userSelections = await getUserSelections(gameRun.userSelectionsId)
-      // setIsLoading(false)
-      // setGameRun(gameRun)
-      // if (!gameRun.isFinished) {
-      //   await new Promise(r => setTimeout(r, 3000))
-      //   await getGameObject(objectId)
-      // }
+      const tableId = content["fields"]["scores"]["fields"]["id"]["id"]
+      const scores = await getTableData(tableId)
+      setScores(scores)
     }
   }
 
@@ -63,27 +53,25 @@ export function ScoreboardPage({network}: Props) {
     })
   }
 
-  const getTableData = async (objectId: string) => {
+  const getTableData = async (objectId: string): Promise<Score[]> => {
     const dynamicFields = await client.getDynamicFields({
       parentId: objectId,
     })
-    console.log("dynamicFields")
-    console.log(dynamicFields)
-    // const prompts: GamePrompt[] = []
-    // for (const d of dynamicFields.data) {
-    //   const object = await getObject(d.objectId)
-    //   const content: SuiParsedData | null | undefined = object.data?.content
-    //   if (content && ((content["fields"] || {})["value"] || {})["fields"]) {
-    //     const fields = content["fields"]["value"]["fields"]
-    //     prompts.push({
-    //       id: d.objectId,
-    //       index: parseInt(content["fields"].name),
-    //       imageUrl: fields.image_url,
-    //       content: fields.content,
-    //     })
-    //   }
-    // }
-    // return prompts.sort((d1, d2) => d1.index - d2.index)
+    const scores: Score[] = []
+    for (const d of dynamicFields.data) {
+      const object = await getObject(d.objectId)
+      const content: SuiParsedData | null | undefined = object.data?.content
+      if (content && ((content["fields"] || {})["value"] || {})["fields"]) {
+        const fields = content["fields"]["value"]["fields"]
+        scores.push({
+          id: d.objectId,
+          ethAddress: fields.eth_address,
+          hpLeft: parseInt(fields.hp_left),
+          turns: parseInt(fields.turns),
+        })
+      }
+    }
+    return scores.sort((d1, d2) => (d2.hpLeft - d1.hpLeft) || (d1.turns - d2.turns))
   }
 
   return (
@@ -98,12 +86,6 @@ export function ScoreboardPage({network}: Props) {
           </a>
           <a
             className="hover:underline cursor-pointer"
-            href="/scoreboard"
-          >
-            Scoreboard
-          </a>
-          <a
-            className="hover:underline cursor-pointer"
             href="https://galadriel.com"
             target="_blank"
           >
@@ -113,33 +95,54 @@ export function ScoreboardPage({network}: Props) {
 
 
         <div
-          className={"flex flex-col gap-6 text-center text-xl " + FONT.className}
+          className="bg-[#002360] p-0 border-t-2 border-white w-full max-w-[1000px] pt-2 pb-2"
         >
-          <div className="text-7xl">
-            <div>
-              Battle with on-chain AI “VitAIlik”
-            </div>
-          </div>
-          <div className="text-3xl">
-            and
-          </div>
           <div
-            className="text-6xl"
+            className="min-h-[40px] flex flex-row justify-between"
           >
-            win <span className="text-[#00FF66]">1000 USDC</span>
-          </div>
-          <div className="pt-[100px]">
-
-          </div>
-          <div className="pt-10 flex flex-col gap-2">
-            <div>
-              competition until end of ETH Denver
+            <div className="basis-1/4 text-center">
+              Player
             </div>
-            <div>
-              no skills required
+            <div className="basis-1/4 text-center">
+              HP
+            </div>
+            <div className="basis-1/4 text-center">
+              Turns
+            </div>
+            <div className="basis-1/4 text-center">
+              Game
             </div>
           </div>
+          {scores.length === 0 && <div className="flex flex-col items-center p-10">
+            <Loader/>
+          </div>}
+          {scores.map((s: Score, i: number) =>
+            <div
+              key={`score-${i}`}
+              className={"min-h-[40px] flex flex-row items-center " + (i === 0 ? "text-green-400 " : "") + (i % 2 !== 0 ? "bg-white text-black " : "")}
+            >
+              <div className="basis-1/4 text-center">
+                {s.ethAddress.slice(0, 10)}...
+              </div>
+              <div className="basis-1/4 text-center">
+                {s.hpLeft}
+              </div>
+              <div className="basis-1/4 text-center">
+                {s.turns}
+              </div>
+              <div className="basis-1/4 text-center">
+                <a
+                  href={`https://suiscan.com/object/${s.id}?network=${network}`}
+                  target={"_blank"}
+                  className="underline"
+                >
+                  Suiscan.com
+                </a>
+              </div>
+            </div>
+          )}
         </div>
+
         <div
           className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 " + FONT.className}>
           <div className="text-left text-sm w-full">
