@@ -127,7 +127,7 @@ export function ScoreboardPage({network}: Props) {
                   target="_blank"
                   className="hover:underline"
                 >
-                  {s.ethAddress.slice(0, 10)}...
+                  {s.ethAddress.slice(0, 7)}...
                 </a>
               </div>
               <div className="basis-1/4 text-center">
@@ -142,7 +142,7 @@ export function ScoreboardPage({network}: Props) {
                   target={"_blank"}
                   className="hover:underline"
                 >
-                  Suiscan.com
+                  Suiscan
                 </a>
               </div>
             </div>
