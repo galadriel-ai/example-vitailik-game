@@ -82,7 +82,7 @@ export function Landing(props: Props) {
           style={{width: "100%", height: "100%"}}
         />
       }
-      <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
+      <main className="flex min-h-screen flex-col items-center gap-20 p-2 lg:p-12 justify-between z-2 relative">
 
         {!address ?
           <>
