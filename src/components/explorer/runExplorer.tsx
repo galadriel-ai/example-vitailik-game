@@ -192,7 +192,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
   }
 
   return <>
-    <div className="bg-[#002360] p-4 border-t-2 border-white">
+    <div className="bg-brand-bluedark p-4 border-t-2 border-white">
       <h1 className={"text-4xl " + FONT.className}>
         Game details
       </h1>
@@ -221,7 +221,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
         {game.prompts.map((d, i) =>
           <div
             key={d.id}
-            className="flex flex-col gap-10 pt-10 border-t-2 bg-[#002360] p-1 lg:p-4 border-white"
+            className="flex flex-col gap-10 pt-10 border-t-2 bg-brand-bluedark p-1 lg:p-4 border-white"
           >
             <div className="flex flex-col gap-2 p-4 lg:p-0">
               <div>Index: {d.index}</div>

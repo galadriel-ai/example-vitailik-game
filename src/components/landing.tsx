@@ -6,8 +6,10 @@ import {ExplorerLinks} from "@/components/explorer/explorerLinks";
 import {Network, NETWORK_IDS} from "@/types/network";
 import {Web3} from "web3";
 import {FONT, FONT_BOLD} from "@/fonts/fonts";
-import {useWeb3Modal} from '@web3modal/wagmi/react'
-import {useAccount} from 'wagmi'
+import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useAccount } from 'wagmi'
+import { BuildWithGaladriel } from "./buildwithgaladriel";
+import Addresses from "./addresses";
 
 interface Props {
   network: Network
@@ -77,25 +79,10 @@ export function Landing(props: Props) {
       {!address &&
         <div
           className="absolute z-0"
-          style={{width: "100%", height: "100%", background: "url(fight.png) center center no-repeat"}}
+          style={{width: "100%", height: "100%"}}
         />
       }
       <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
-        <div className="flex flex-row w-full justify-end p-6 lg:p-0 gap-6">
-          <a
-            className="hover:underline cursor-pointer"
-            href="/scoreboard"
-          >
-            Scoreboard
-          </a>
-          <a
-            className="hover:underline cursor-pointer"
-            href="https://galadriel.com"
-            target="_blank"
-          >
-            About
-          </a>
-        </div>
 
         {!address ?
           <>
@@ -139,7 +126,7 @@ export function Landing(props: Props) {
             {!gameId ?
               <>
                 <div
-                  className="bg-[#002360] p-5 lg:p-10 border-t-2 border-white"
+                  className="bg-brand-bluedark p-5 lg:p-10 border-t-2 border-white"
                 >
                   <div className="flex flex-row gap-4 max-w-[1000px]">
                     <div className="lg:basis-4/5">
@@ -185,7 +172,7 @@ export function Landing(props: Props) {
                     </div>
                     <div className="hidden lg:inline lg:basis-1/5">
                       <img
-                        src="pxart.png"
+                        src="/vitailik.png"
                         alt="pixels"
                       />
                     </div>
@@ -213,40 +200,9 @@ export function Landing(props: Props) {
 
 
         <div
-          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 " + FONT.className}>
-          <div className="text-left text-sm w-full">
-            <div>
-              <div className="hidden lg:inline">AI contract: {NETWORK_IDS[props.network].packageId}</div>
-              <div className="inline lg:hidden">AI contract: {NETWORK_IDS[props.network].packageId.slice(0, 10)}...
-              </div>
-              <ExplorerLinks
-                objectId={NETWORK_IDS[props.network].packageId}
-                type={"object"}
-                network={props.network}
-              />
-            </div>
-            <div className="pt-4">
-              <div className="hidden lg:inline">
-                AI registry object: {NETWORK_IDS[props.network].registryObjectId}
-              </div>
-              <div className="inline lg:hidden">
-                AI registry object: {NETWORK_IDS[props.network].registryObjectId.slice(0, 10)}...
-              </div>
-              <ExplorerLinks
-                objectId={NETWORK_IDS[props.network].registryObjectId}
-                type={"object"}
-                network={props.network}
-              />
-            </div>
-          </div>
-          <div className="pb-1">build on-chain AI with</div>
-          <a
-            className={"hover:underline cursor-pointer pl-2 text-6xl flex flex-col items-end" + FONT_BOLD.className}
-            href="https://galadriel.com"
-            target="_blank"
-          >
-            Galadriel
-          </a>
+          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0"}>
+          <Addresses network={props.network} />
+          <BuildWithGaladriel />
         </div>
       </main>
     </>

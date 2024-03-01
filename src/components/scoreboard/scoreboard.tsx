@@ -5,7 +5,9 @@ import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network, NETWORK_IDS} from "@/types/network";
 import {FONT, FONT_BOLD} from "@/fonts/fonts";
+import { BuildWithGaladriel } from "../buildwithgaladriel";
 import {Loader} from "@/components/Loader";
+import Addresses from "../addresses";
 
 interface Props {
   network: Network
@@ -77,22 +79,6 @@ export function ScoreboardPage({network}: Props) {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
-        <div className="flex flex-row gap-6 w-full justify-end p-6 lg:p-0">
-          <a
-            className="hover:underline cursor-pointer"
-            href="/"
-          >
-            Home
-          </a>
-          <a
-            className="hover:underline cursor-pointer"
-            href="https://galadriel.com"
-            target="_blank"
-          >
-            About
-          </a>
-        </div>
-
 
         <div
           className="bg-[#002360] p-0 border-t-2 border-white w-full max-w-[1000px] pt-2 pb-2"
@@ -150,40 +136,9 @@ export function ScoreboardPage({network}: Props) {
         </div>
 
         <div
-          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 " + FONT.className}>
-          <div className="text-left text-sm w-full">
-            <div>
-              <div className="hidden lg:inline">AI contract: {NETWORK_IDS[network].packageId}</div>
-              <div className="inline lg:hidden">AI contract: {NETWORK_IDS[network].packageId.slice(0, 10)}...
-              </div>
-              <ExplorerLinks
-                objectId={NETWORK_IDS[network].packageId}
-                type={"object"}
-                network={network}
-              />
-            </div>
-            <div className="pt-4">
-              <div className="hidden lg:inline">
-                AI registry object: {NETWORK_IDS[network].registryObjectId}
-              </div>
-              <div className="inline lg:hidden">
-                AI registry object: {NETWORK_IDS[network].registryObjectId.slice(0, 10)}...
-              </div>
-              <ExplorerLinks
-                objectId={NETWORK_IDS[network].registryObjectId}
-                type={"object"}
-                network={network}
-              />
-            </div>
-          </div>
-          <div className="pb-1">build on-chain AI with</div>
-          <a
-            className={"hover:underline cursor-pointer pl-2 text-6xl flex flex-col items-end" + FONT_BOLD.className}
-            href="https://galadriel.com"
-            target="_blank"
-          >
-            Galadriel
-          </a>
+          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 "}>
+          <Addresses network={network} />
+          <BuildWithGaladriel />
         </div>
       </main>
     </>

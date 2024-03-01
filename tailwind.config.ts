@@ -9,11 +9,20 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "fight": "url('/fight.png')",
       },
     },
+    fontFamily: {
+      PPMondwest: ['PPMondwest-Regular', 'sans-serif'],
+      PPNeueBit: ['PPNeueBit-Bold', 'sans-serif'],
+    },
+    colors: {
+      brand: {
+        blue: "#0657e0",
+        bluedark: "#002360",
+        neongreen: "#00ff66"
+      }
+    }
   },
   plugins: [
     require("@tailwindcss/forms"),
