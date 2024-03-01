@@ -10,8 +10,13 @@ const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "VitAIlik Fight Club",
-  description: "Battle with on-chain AI 'VitAIlik'",
+  description: "Battle with on-chain AI VitAIlik",
+  openGraph: {
+    images: ["/og_image.png"],
+    description: "Battle with on-chain AI 'VitAIlik'"
+  }
 };
+
 
 export default function RootLayout(
   {
