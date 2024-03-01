@@ -167,15 +167,15 @@ export function Landing(props: Props) {
                     <div className="px-10 py-7">
                       <img className="w-full md:w-auto md:float-right md:ml-5 mb-5" src="/vitailik.png"></img>
                       
-                      <p className="mb-5">I am VitAIlik, your ultimate challenge!</p>
-                      <p className="mb-5">Your goal: drain my 10,000 HP before I deplete yours. Triumph, and your remaining HP boosts your score on the <a href="/scoreboard" className="underline">scoreboard</a>, with the highest scorer winning 1000 USDC by end of ETH Denver.</p>
-                      <p className="mb-5">Choose from four actions each turn - each choice affects our HPs. But beware, every move is a double-edged sword.</p>
+                      <p className="mb-5">I am VitAIlik, your AI foe and guardian of the Web3 galaxy!</p>
+                      <p className="mb-5">Your goal: drain my 10,000 HP before I deplete yours. Triumph, and your remaining HP boosts your score on the <a href="/scoreboard" className="underline">scoreboard</a>, The highest scorer wins 1000 USDC by end of ETH Denver and eternal glory in the Web3 galaxy.</p>
+                      <p className="mb-5">Choose from four actions each turn but beware, every move is a double-edged sword. Choose wisely, for each action you take will influence the tide of battle, affecting both our HPs. Remember, in this arena, every move can lead to victory or defeat and every attack you unleash comes with its own risks.</p>
 
-                      <p className="mb-5">Ready? Let the battle begin!</p>
+                      <p className="mb-5">The crowd roars in anticipation. Ready your arms, brave challenger. Let the battle begin!</p>
 
                       <div className="my-5">
                         <ConnectButton
-                          connectText={"Connect Wallet and GO"}
+                          connectText={"GO!"}
                         />
                       </div>
                     </div>
