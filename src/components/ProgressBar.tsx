@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-const FUN_WAITING_MESSAGES = ["on chain ai is slow lol", "kek", "lel", "pip"];
+const FUN_WAITING_MESSAGES = [
+  "on chain ai is slow lol",
+  "join us to make this faster",
+  "waiting for the ai to think",
+  "cleaning up blockspace",
+  "waiting for the ai to wake up",
+  "burning gpus",
+  "ever tried putting an LLM on-chain?"
+];
 
 interface ProgressBarProps {
   duration: number; // Total duration of progress in seconds
