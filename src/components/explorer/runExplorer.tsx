@@ -202,7 +202,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
             <div className="whitespace-pre-line bg-[#111723] bg-opacity-80 p-4">
               {d.imageUrl &&
                 <img
-                  className="mx-auto pt-10 float-right h-auto w-64 lg:w-96 xl:w-1/3"
+                  className="mx-auto pt-10 h-auto w-full md:float-right md:w-96 xl:w-1/3"
                   src={d.imageUrl}
                   alt={`Story illustration ${i}`}
                   width={1000}
