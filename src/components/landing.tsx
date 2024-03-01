@@ -214,30 +214,22 @@ export function Landing(props: Props) {
 
 
         <div
-          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 " + FONT.className}>
+          className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0"}>
           <div className="text-left text-sm w-full">
             <div>
-              <div className="hidden lg:inline">AI contract: {NETWORK_IDS[props.network].packageId}</div>
-              <div className="inline lg:hidden">AI contract: {NETWORK_IDS[props.network].packageId.slice(0, 10)}...
+              <div className="hidden lg:inline">AI contract: <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].packageId}?network=${props.network}`}>{NETWORK_IDS[props.network].packageId}</a></div>
+              <div className="inline lg:hidden">AI contract: <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].packageId}?network=${props.network}`}>{NETWORK_IDS[props.network].packageId.slice(0, 10)}...</a>
               </div>
-              <ExplorerLinks
-                objectId={NETWORK_IDS[props.network].packageId}
-                type={"object"}
-                network={props.network}
-              />
             </div>
             <div className="pt-4">
               <div className="hidden lg:inline">
-                AI registry object: {NETWORK_IDS[props.network].registryObjectId}
+                AI registry:&nbsp;
+                <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].registryObjectId}?network=${props.network}`}>{NETWORK_IDS[props.network].registryObjectId}</a>
               </div>
               <div className="inline lg:hidden">
-                AI registry object: {NETWORK_IDS[props.network].registryObjectId.slice(0, 10)}...
+                AI registry:&nbsp;
+                <a className="underline" href={`https://suiscan.com/object/${NETWORK_IDS[props.network].registryObjectId}?network=${props.network}`}>{NETWORK_IDS[props.network].registryObjectId.slice(0, 10)}...</a>
               </div>
-              <ExplorerLinks
-                objectId={NETWORK_IDS[props.network].registryObjectId}
-                type={"object"}
-                network={props.network}
-              />
             </div>
           </div>
           <BuildWithGaladriel />
