@@ -157,30 +157,31 @@ export function Landing(props: Props) {
                   </button>
                 </>
                 :
-                <div className="pt-8">Connect wallet to play the game!</div>
-              }
-            </div>
+                <>
+                  <div>
+                    <div>
+                      <p className="text-4xl font-PPMondwest mb-5 ml-4 mt-3">
+                        Ah, brave wanderer of ETH Denver, welcome to my realm!
+                      </p>
+                    </div>
+                    <div className="px-10 py-7">
+                      <img className="w-full md:w-auto md:float-right md:ml-5 mb-5" src="/vitailik.png"></img>
+                      
+                      <p className="mb-5">I am VitAIlik, your ultimate challenge!</p>
+                      <p className="mb-5">Your goal: drain my 10,000 HP before I deplete yours. Triumph, and your remaining HP boosts your score on the <a href="/scoreboard" className="underline">scoreboard</a>, with the highest scorer winning 1000 USDC by end of ETH Denver.</p>
+                      <p className="mb-5">Choose from four actions each turn - each choice affects our HPs. But beware, every move is a double-edged sword.</p>
 
-            <div className="basis-1/2 flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
-              <div className="min-h-[24px] text-red-400">
-                {searchErrorMessage}
-              </div>
-              <Input
-                value={searchInput}
-                placeholder="Existing game ID"
-                onChange={e => {
-                  setSearchInput(e.target.value)
-                  if (searchErrorMessage) setSearchErrorMessage("")
-                  if (agentErrorMessage) setAgentErrorMessage("")
-                }
-                }
-              />
-              <button
-                className="p-2 px-4 bg-gray-800 bg-brand-neongreen duration-200 focus:outline-none text-brand-bluedark"
-                onClick={() => onSearch()}
-              >
-                Search
-              </button>
+                      <p className="mb-5">Ready? Let the battle begin!</p>
+
+                      <div className="my-5">
+                        <ConnectButton
+                          connectText={"Connect Wallet and GO"}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </>
+              }
             </div>
           </div>
         </div>
