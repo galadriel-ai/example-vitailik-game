@@ -18,7 +18,7 @@ export default function Page() {
     return <>
       <div className="text-center font-PPMondwest mt-40"
         >
-        <p className="text-8xl my-5">Battle with on-chain AI "VitAIlik"</p>
+        <p className="text-8xl my-5">Battle with on-chain AI &quot;VitAIlik&quot;</p>
         <p className="text-4xl">and</p>
         <p className="text-9xl mt-5">win <span className="text-brand-neongreen">1000 USDC</span></p>
 
