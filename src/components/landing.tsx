@@ -182,6 +182,11 @@ export function Landing(props: Props) {
               </>
               :
               <>
+                <div className={"text-7xl text-center " + FONT.className}>
+                  <div>
+                    Battle with on-chain AI “VitAIlik”
+                  </div>
+                </div>
                 <div
                   className="flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
 
