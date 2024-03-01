@@ -5,7 +5,7 @@ import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {ExplorerLinks} from "@/components/explorer/explorerLinks"
 import {Network} from "@/types/network";
 import {FONT} from "@/fonts/fonts";
-import {Loader} from "@/components/Loader";
+import ProgressBar from "../ProgressBar";
 
 
 interface Props {
@@ -153,7 +153,7 @@ export const RunExplorer = ({gameObjectId, network, connectedAccount}: Props) =>
           connectedAccount={connectedAccount}
         />
       }
-      {isLoading && <Loader/>}
+      {isLoading && <ProgressBar duration={10}/>}
     </div>
 
   </>
@@ -247,7 +247,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
             {(!game.isFinished && game.userSelections.length < (i + 1) && connectedAccount === game.ethAddress) &&
               <>
                 {isSelectionLoading ?
-                  <Loader/>
+                  <ProgressBar duration={10}/>
                   :
                   <Selector onSelection={onSelection}/>
                 }
@@ -266,7 +266,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
           </div>
         )}
 
-        {(!game.isFinished && game.prompts.length == game.userSelections.length) && <Loader/>}
+        {(!game.isFinished && game.prompts.length == game.userSelections.length) && <ProgressBar duration={10}/>}
         {game.isFinished &&
           <div className="w-full text-center">
             Thank you for playing!

@@ -4,7 +4,7 @@ import {useSuiClient} from "@mysten/dapp-kit"
 import {SuiParsedData} from "@mysten/sui.js/src/types"
 import {Network, NETWORK_IDS} from "@/types/network";
 import { BuildWithGaladriel } from "../buildwithgaladriel";
-import {Loader} from "@/components/Loader";
+import {ProgressBar} from "@/components/ProgressBar";
 import Addresses from "../addresses";
 
 interface Props {
@@ -102,7 +102,7 @@ export function ScoreboardPage({network}: Props) {
               </div>
             </div>
             {scores.length === 0 && <div className="flex flex-col items-center p-10">
-              <Loader/>
+              <ProgressBar duration={10} />
             </div>}
             {scores.map((s: Score, i: number) =>
               <div
