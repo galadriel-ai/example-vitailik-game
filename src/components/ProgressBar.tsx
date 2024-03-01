@@ -31,6 +31,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ duration, message }) =
         if (nextProgress > 100) {
           //clearInterval(interval);
           //return 100;
+          setRandomMessage(
+            FUN_WAITING_MESSAGES[Math.floor(Math.random() * FUN_WAITING_MESSAGES.length)]
+          );
           return 0;
         }
         return nextProgress;
