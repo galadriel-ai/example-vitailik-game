@@ -40,6 +40,13 @@ interface Game {
   userSelections: UserSelection[]
 }
 
+function replaceViilikAndRemoveImageLines(description: string): string {
+  const lines = description.split('\n');
+  const processedLines = lines.filter(line => !line.startsWith('[IMAGE]'))
+                              .map(line => line.replace(/viilik/gi, 'VitAIlik'));
+  return processedLines.join('\n');
+}
+
 const SELECTIONS = ["A", "B", "C", "D"]
 
 export const RunExplorer = ({gameObjectId, network, connectedAccount}: Props) => {
@@ -209,7 +216,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
                   height={1000}
                 />
               }
-              <div>{d.content}</div>
+              <div>{replaceViilikAndRemoveImageLines(d.content)}</div>
             </div>
             {(!game.isFinished && game.userSelections.length < (i + 1) && connectedAccount === game.ethAddress) &&
               <>
