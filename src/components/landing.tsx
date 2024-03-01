@@ -10,6 +10,7 @@ import { useWeb3Modal } from '@web3modal/wagmi/react'
 import { useAccount } from 'wagmi'
 import { BuildWithGaladriel } from "./buildwithgaladriel";
 import Addresses from "./addresses";
+import VoicePlayer from "./VoicePlayer";
 
 interface Props {
   network: Network
@@ -134,6 +135,9 @@ export function Landing(props: Props) {
                         Ah, brave wanderer of ETH Denver, welcome to my realm!
                       </div>
                       <div className={"flex flex-col gap-8 p-2 pt-6"}>
+                        <div>
+                          <VoicePlayer />
+                        </div>
                         <div>
                           I am VitAIlik, your AI foe and guardian of the Web3 galaxy!
                         </div>
