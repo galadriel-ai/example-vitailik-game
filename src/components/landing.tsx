@@ -82,21 +82,6 @@ export function Landing(props: Props) {
         />
       }
       <main className="flex min-h-screen flex-col items-center gap-20 lg:p-12 justify-between z-2 relative">
-        <div className="flex flex-row w-full justify-end p-6 lg:p-0 gap-6">
-          <a
-            className="hover:underline cursor-pointer"
-            href="/scoreboard"
-          >
-            Scoreboard
-          </a>
-          <a
-            className="hover:underline cursor-pointer"
-            href="https://galadriel.com"
-            target="_blank"
-          >
-            About
-          </a>
-        </div>
 
         {!address ?
           <>

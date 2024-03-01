@@ -6,6 +6,7 @@ import {ContextProvider} from "@/context";
 import {cookieToInitialState} from "wagmi";
 import {config} from "@/config";
 import {headers} from "next/headers";
+import Navbar from "@/components/navbar";
 
 const plexmono = IBM_Plex_Mono(
   {weight: "400", subsets: ["latin"]},
@@ -32,7 +33,10 @@ export default function RootLayout(
   return (
     <html lang="en">
     <body className={plexmono.className}>
-    <ContextProvider initialState={initialState}>{children}</ContextProvider>
+    <ContextProvider initialState={initialState}>
+      <Navbar />
+      {children}
+    </ContextProvider>
     </body>
     </html>
   );
