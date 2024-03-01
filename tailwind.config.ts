@@ -14,6 +14,7 @@ const config: Config = {
     },
     fontFamily: {
       PPMondwest: ['PPMondwest-Regular', 'sans-serif'],
+      PPNeueBit: ['PPNeueBit-Bold', 'sans-serif'],
     },
     colors: {
       brand: {

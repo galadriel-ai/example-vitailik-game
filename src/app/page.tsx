@@ -23,7 +23,7 @@ export default function Page() {
         <p className="text-9xl mt-5">win <span className="text-brand-neongreen">1000 USDC</span></p>
 
         <button
-          className="p-3 px-5 font-PPMondwest font-bold text-4xl bg-brand-neongreen text-brand-bluedark my-20"
+          className="p-3 px-5 font-PPNeueBit font-bold text-4xl bg-brand-neongreen text-brand-bluedark my-20"
         >
           <a href="/play">Connect 2 Battle</a>
         </button>
