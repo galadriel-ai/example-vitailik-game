@@ -7,7 +7,10 @@ const FUN_WAITING_MESSAGES = [
   "cleaning up blockspace",
   "waiting for the ai to wake up",
   "burning gpus",
-  "ever tried putting an LLM on-chain?"
+  "ever tried putting an LLM on-chain?",
+  "op or zk?",
+  "don't worry about the vase"
+
 ];
 
 interface ProgressBarProps {
