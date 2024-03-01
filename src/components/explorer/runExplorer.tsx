@@ -171,7 +171,7 @@ const GameDisplay = ({game, network, onNewSelection, connectedAccount}: {
   const onSelection = async (selection: number): Promise<void> => {
     setIsSelectionLoading(true)
     const response = await fetch(
-      "/api/select",
+      "/api/selectGame",
       {
         headers: {
           "Content-Type": "application/json",

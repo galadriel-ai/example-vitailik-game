@@ -50,7 +50,7 @@ export function Landing(props: Props) {
       return
     }
     const response = await fetch(
-      "/api/start",
+      "/api/startGame",
       {
         headers: {
           "Content-Type": "application/json",
