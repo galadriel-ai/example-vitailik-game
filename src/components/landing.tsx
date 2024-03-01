@@ -11,6 +11,7 @@ import { useAccount } from 'wagmi'
 import { BuildWithGaladriel } from "./buildwithgaladriel";
 import Addresses from "./addresses";
 import VoicePlayer from "./VoicePlayer";
+import MusicPlayer from "./MusicPlayer";
 
 interface Props {
   network: Network
@@ -190,6 +191,7 @@ export function Landing(props: Props) {
                   <div>
                     Battle with on-chain AI “VitAIlik”
                   </div>
+                  <MusicPlayer />
                 </div>
                 <div
                   className="flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
