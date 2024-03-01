@@ -6,7 +6,8 @@ import {ExplorerLinks} from "@/components/explorer/explorerLinks";
 import {Network, NETWORK_IDS} from "@/types/network";
 import {Web3} from "web3";
 import {FONT, FONT_BOLD} from "@/fonts/fonts";
-
+import { useWeb3Modal } from '@web3modal/wagmi/react'
+import { useAccount } from 'wagmi'
 
 interface Props {
   network: Network
@@ -14,6 +15,8 @@ interface Props {
 }
 
 export function Landing(props: Props) {
+  const {open} = useWeb3Modal()
+  const { address, isConnecting, isDisconnected } = useAccount()
   const [connectedAccount, setConnectedAccount] = useState<string>("");
 
   const [isGameStartLoading, setIsGameStartLoading] = useState<boolean>(false)
@@ -45,7 +48,7 @@ export function Landing(props: Props) {
   }
 
   const onStartGame = async (): Promise<void> => {
-    if (!connectedAccount) {
+    if (!address) {
       console.log("Not connected")
       return
     }
@@ -58,7 +61,7 @@ export function Landing(props: Props) {
         },
         method: 'POST',
         body: JSON.stringify({
-          address: connectedAccount
+          address: address
         }),
       }
     )
@@ -71,7 +74,7 @@ export function Landing(props: Props) {
 
   return (
     <>
-      {!connectedAccount &&
+      {!address &&
         <div
           className="absolute z-0"
           style={{width: "100%", height: "100%", background: "url(fight.png) center center no-repeat"}}
@@ -88,7 +91,7 @@ export function Landing(props: Props) {
           </a>
         </div>
 
-        {!connectedAccount ?
+        {!address ?
           <>
             <div
               className={"flex flex-col gap-6 text-center text-xl " + FONT.className}
@@ -108,7 +111,8 @@ export function Landing(props: Props) {
               </div>
               <div className="pt-[100px]">
                 <button
-                  onClick={() => connectWeb3()}
+                  // onClick={() => connectWeb3()}
+                  onClick={() => open()}
                   className={"p-4 bg-[#00FF66] text-3xl text-black hover:bg-[#00b548] duration-200 " + FONT.className}
                 >
                   Connect wallet to Battle
@@ -192,7 +196,7 @@ export function Landing(props: Props) {
                     <RunExplorer
                       gameObjectId={gameId}
                       network={props.network}
-                      connectedAccount={connectedAccount}
+                      connectedAccount={address}
                     />
                   }
                 </div>
