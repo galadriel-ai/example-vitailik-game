@@ -1,12 +1,9 @@
 import type {Metadata} from "next";
-import { IBM_Plex_Mono } from 'next/font/google'
+import {IBM_Plex_Mono} from 'next/font/google'
 
 import "./globals.css";
-import {ContextProvider} from "@/context";
-import {cookieToInitialState} from "wagmi";
-import {config} from "@/config";
-import {headers} from "next/headers";
 import Navbar from "@/components/navbar";
+import {Web3ModalProvider} from "@/config/Web3Modal";
 
 const plexmono = IBM_Plex_Mono(
   {weight: "400", subsets: ["latin"]},
@@ -29,16 +26,13 @@ export default function RootLayout(
     children: React.ReactNode;
   }>
 ) {
-  const initialState = cookieToInitialState(config, headers().get('cookie'))
   return (
     <html lang="en">
     <body className={plexmono.className}>
-    <ContextProvider initialState={initialState}>
       <div className="h-screen bg-fight bg-no-repeat bg-contain bg-center ">
         <Navbar />
-        {children}
+        <Web3ModalProvider>{children}</Web3ModalProvider>
       </div>
-    </ContextProvider>
     </body>
     </html>
   );

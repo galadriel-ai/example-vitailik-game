@@ -1,44 +1,300 @@
-export function getFullnodeUrl(network: Network) {
-  switch (network) {
-    case "mainnet":
-      return "https://fullnode.mainnet.sui.io:443";
-    //   SuiClientProvider does not support testnet? :O
-    // case "testnet":
-    //   return "https://fullnode.testnet.sui.io:443";
-    case "devnet":
-      return "https://fullnode.devnet.sui.io:443";
-    case "localnet":
-      return "http://127.0.0.1:9000";
-    // case "custom":
-    //   return "http://34.76.196.93:9001";
-    default:
-      throw new Error(`Unknown network: ${network}`);
+export const ABI = [
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "initialOracleAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "initialPrompt",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "gameId",
+        "type": "uint256"
+      }
+    ],
+    "name": "GameCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOracleAddress",
+        "type": "address"
+      }
+    ],
+    "name": "OracleAddressUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "response",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "responseType",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "chatOwner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "runId",
+        "type": "uint256"
+      }
+    ],
+    "name": "addResponse",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "selection",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "gameId",
+        "type": "uint256"
+      }
+    ],
+    "name": "addSelection",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "input",
+        "type": "string"
+      }
+    ],
+    "name": "findHPInstances",
+    "outputs": [
+      {
+        "internalType": "string[2]",
+        "name": "",
+        "type": "string[2]"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "input",
+        "type": "string"
+      }
+    ],
+    "name": "findImageLine",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "games",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "player",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "messagesCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "imagesCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isFinished",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "chatId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getImages",
+    "outputs": [
+      {
+        "internalType": "string[]",
+        "name": "",
+        "type": "string[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chatId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getMessages",
+    "outputs": [
+      {
+        "internalType": "string[]",
+        "name": "",
+        "type": "string[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "chatId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getRoles",
+    "outputs": [
+      {
+        "internalType": "string[]",
+        "name": "",
+        "type": "string[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getSystemPrompt",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "oracleAddress",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "prompt",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOracleAddress",
+        "type": "address"
+      }
+    ],
+    "name": "setOracleAddress",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "startGame",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "i",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
   }
-}
-
-// export type Network = "mainnet" | "devnet" | "localnet" | "custom"
-export type Network = "mainnet" | "devnet" | "localnet"
-export const NETWORKS = ["mainnet", "devnet", "localnet", "custom"]
-
-type NetworkIds = {
-  packageId: string
-  registryObjectId: string
-  scoreboardObjectId: string
-}
-export const NETWORK_IDS: { mainnet: NetworkIds,devnet: NetworkIds, localnet: NetworkIds } = {
-  mainnet: {
-    packageId: process.env.NEXT_PUBLIC_MAINNET_PACKAGE_ID || "",
-    registryObjectId: process.env.NEXT_PUBLIC_MAINNET_REGISTRY_OBJECT_ID || "",
-    scoreboardObjectId: process.env.NEXT_PUBLIC_MAINNET_SCOREBOARD_OBJECT_ID || "",
-  },
-  devnet: {
-    packageId: process.env.NEXT_PUBLIC_PACKAGE_ID || "",
-    registryObjectId: process.env.NEXT_PUBLIC_REGISTRY_OBJECT_ID || "",
-    scoreboardObjectId: process.env.NEXT_PUBLIC_SCOREBOARD_OBJECT_ID || "",
-  },
-  localnet: {
-    packageId: process.env.NEXT_PUBLIC_LOCAL_PACKAGE_ID || "",
-    registryObjectId: process.env.NEXT_PUBLIC_LOCAL_REGISTRY_OBJECT_ID || "",
-    scoreboardObjectId: process.env.NEXT_PUBLIC_LOCAL_SCOREBOARD_OBJECT_ID || "",
-  },
-}
+]

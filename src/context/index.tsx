@@ -14,12 +14,12 @@ const queryClient = new QueryClient()
 
 if (!projectId) throw new Error('Project ID is not defined')
 
-// Create modal
-createWeb3Modal({
-  wagmiConfig: config,
-  projectId,
-  enableAnalytics: true // Optional - defaults to your Cloud configuration
-})
+// // Create modal
+// createWeb3Modal({
+//   wagmiConfig: config,
+//   projectId,
+//   enableAnalytics: true // Optional - defaults to your Cloud configuration
+// })
 
 export function ContextProvider(
   {
@@ -30,8 +30,8 @@ export function ContextProvider(
     initialState?: State
   }) {
   return (
-    <WagmiProvider config={config} initialState={initialState}>
+    // <WagmiProvider config={config} initialState={initialState}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </WagmiProvider>
+    // </WagmiProvider>
   )
 }

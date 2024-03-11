@@ -2,76 +2,52 @@
 
 import {useState} from "react"
 import {RunExplorer} from "@/components/explorer/runExplorer";
-import {ExplorerLinks} from "@/components/explorer/explorerLinks";
-import {Network, NETWORK_IDS} from "@/types/network";
-import {Web3} from "web3";
-import {FONT, FONT_BOLD} from "@/fonts/fonts";
-import { useWeb3Modal } from '@web3modal/wagmi/react'
-import { useAccount } from 'wagmi'
-import { BuildWithGaladriel } from "./buildwithgaladriel";
+import {FONT} from "@/fonts/fonts";
+import {useWeb3Modal, useWeb3ModalAccount, useWeb3ModalProvider} from '@web3modal/ethers/react'
+import {BuildWithGaladriel} from "./buildwithgaladriel";
 import Addresses from "./addresses";
 import VoicePlayer from "./VoicePlayer";
 import MusicPlayer from "./MusicPlayer";
+import {BrowserProvider, Contract, ethers} from "ethers";
+import {ABI} from "@/types/network";
 
-interface Props {
-  network: Network
-  onSwitchNetwork: (network: Network) => void
-}
 
-export function Landing(props: Props) {
+export function Landing() {
   const {open} = useWeb3Modal()
-  const { address, isConnecting, isDisconnected } = useAccount()
-  const [connectedAccount, setConnectedAccount] = useState<string>("");
+  const {walletProvider} = useWeb3ModalProvider()
+
+  const {address} = useWeb3ModalAccount()
 
   const [isGameStartLoading, setIsGameStartLoading] = useState<boolean>(false)
 
-  // 0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af
-  // TODO: revert
-  const [gameId, setGameId] = useState<string | undefined>()
-  // const [gameId, setGameId] = useState<string | undefined>("0x07a0f3be68f6469f7f4a8ffade9480be0818e7b1f230a95d9a03080f162405af")
+  const [gameId, setGameId] = useState<number | undefined>()
 
-  const connectWeb3 = async (): Promise<void> => {
-    // @ts-ignore
-    if (window.ethereum) {
-      // instantiate Web3 with the injected provider
-      // @ts-ignore
-      const web3 = new Web3(window.ethereum);
-
-      //request user to connect accounts (Metamask will prompt)
-      // @ts-ignore
-      await window.ethereum.request({method: 'eth_requestAccounts'});
-
-      //get the connected accounts
-      const accounts = await web3.eth.getAccounts();
-
-      //show the first connected account in the react page
-      setConnectedAccount(accounts[0]);
-    } else {
-      alert('Please download metamask');
-    }
-  }
 
   const onStartGame = async (): Promise<void> => {
-    if (!address) {
+    if (!address || !walletProvider) {
       console.log("Not connected")
       return
     }
     setIsGameStartLoading(true)
-    const response = await fetch(
-      "/api/startGame",
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          address: address
-        }),
+    const ethersProvider = new BrowserProvider(walletProvider)
+    const signer = await ethersProvider.getSigner()
+    const contract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "", ABI, signer)
+    const tx = await contract.startGame()
+    const receipt = await tx.wait()
+    let newGameId
+    for (const log of receipt.logs) {
+      try {
+        const parsedLog = contract.interface.parseLog(log)
+        if (parsedLog && parsedLog.name === "GameCreated") {
+          newGameId = ethers.toNumber(parsedLog.args[1])
+        }
+      } catch (error) {
+        // This log might not have been from your contract, or it might be an anonymous log
+        console.log("Could not parse log:", log);
       }
-    )
-    const {gameId} = await response.json()
-    if (gameId) {
-      setGameId(gameId)
+    }
+    if (newGameId !== undefined && !gameId) {
+      setGameId(newGameId)
     }
     setIsGameStartLoading(false)
   }
@@ -96,36 +72,19 @@ export function Landing(props: Props) {
                   Battle with on-chain AI “VitAIlik”
                 </div>
               </div>
-              <div className="text-3xl">
-                and
-              </div>
-              <div
-                className="text-6xl"
-              >
-                win <span className="text-[#00FF66]">1000 USDC</span>
-              </div>
               <div className="pt-[100px]">
                 <button
-                  // onClick={() => connectWeb3()}
                   onClick={() => open()}
                   className={"p-4 bg-[#00FF66] text-3xl text-black hover:bg-[#00b548] duration-200 " + FONT.className}
                 >
                   Connect wallet to Battle
                 </button>
               </div>
-              <div className="pt-10 flex flex-col gap-2">
-                <div>
-                  competition until end of ETH Denver
-                </div>
-                <div>
-                  no skills required
-                </div>
-              </div>
             </div>
           </>
           :
           <>
-            {!gameId ?
+            {gameId === undefined ?
               <>
                 <div
                   className="bg-brand-bluedark p-5 lg:p-10 border-t-2 border-white"
@@ -137,7 +96,7 @@ export function Landing(props: Props) {
                       </div>
                       <div className={"p-2 pt-6"}>
                         <div>
-                          <VoicePlayer />
+                          <VoicePlayer/>
                         </div>
                         <img
                           className="w-full h-auto md:float-right md:w-1/3 md:pl-2"
@@ -150,19 +109,13 @@ export function Landing(props: Props) {
                           </div>
                           <div className="my-5">
                             Your goal: drain my 10,000 HP before I deplete yours. Triumph, and your remaining HP boosts
-                            your
-                            score on the scoreboard, The highest scorer wins 1000 USDC by end of ETH Denver and eternal
-                            glory
-                            in the Web3 galaxy.
+                            your score on the scoreboard.
                           </div>
                           <div className="my-5">
                             Choose from four actions each turn but beware, every move is a double-edged sword. Choose
-                            wisely,
-                            for each action you take will influence the tide of battle, affecting both our HPs. Remember,
-                            in
-                            this arena, every move can lead to victory or defeat and every attack you unleash comes with
-                            its
-                            own risks.
+                            wisely, for each action you take will influence the tide of battle, affecting both our HPs.
+                            Remember, in this arena, every move can lead to victory or defeat and every attack you
+                            unleash comes with its own risks.
                           </div>
                           <div className="my-5">
                             The crowd roars in anticipation. Ready your arms, brave challenger. Let the battle begin!
@@ -191,15 +144,14 @@ export function Landing(props: Props) {
                   <div>
                     Battle with on-chain AI “VitAIlik”
                   </div>
-                  <MusicPlayer />
+                  <MusicPlayer/>
                 </div>
                 <div
                   className="flex flex-col grow gap-4 max-w-8xl w-full relative place-items-center h-full">
 
-                  {gameId &&
+                  {gameId !== undefined &&
                     <RunExplorer
-                      gameObjectId={gameId}
-                      network={props.network}
+                      gameId={gameId}
                       connectedAccount={address}
                     />
                   }
@@ -212,8 +164,8 @@ export function Landing(props: Props) {
 
         <div
           className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0"}>
-          <Addresses network={props.network} />
-          <BuildWithGaladriel />
+          <Addresses/>
+          <BuildWithGaladriel/>
         </div>
       </main>
     </>

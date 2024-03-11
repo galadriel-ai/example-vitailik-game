@@ -1,15 +1,7 @@
-import {useEffect, useState} from "react"
-import {useSuiClient} from "@mysten/dapp-kit"
-// @ts-ignore
-import {SuiParsedData} from "@mysten/sui.js/src/types"
-import {Network, NETWORK_IDS} from "@/types/network";
-import { BuildWithGaladriel } from "../buildwithgaladriel";
+import {useState} from "react"
+import {BuildWithGaladriel} from "../buildwithgaladriel";
 import {ProgressBar} from "@/components/ProgressBar";
 import Addresses from "../addresses";
-
-interface Props {
-  network: Network
-}
 
 interface Score {
   lastGame: string
@@ -20,81 +12,81 @@ interface Score {
   gamesPlayed: number;
 }
 
-export function ScoreboardPage({network}: Props) {
-  const client = useSuiClient()
-
-  let [isLoading, setIsLoading] = useState<boolean>(false)
-  let [scoreboard, setScoreboard] = useState<any | undefined>()
-
+export function ScoreboardPage() {
+  // const client = useSuiClient()
+  //
+  // let [isLoading, setIsLoading] = useState<boolean>(false)
+  // let [scoreboard, setScoreboard] = useState<any | undefined>()
+  //
   let [scores, setScores] = useState<Score[]>([])
-
-  useEffect(() => {
-    if (!scoreboard && !isLoading) {
-      setIsLoading(true)
-      getScoreboard()
-    }
-  }, [network, client, scoreboard])
-
-  const getScoreboard = async () => {
-    console.log(network)
-    const object = await getObject(NETWORK_IDS[network].scoreboardObjectId);
-    const content: SuiParsedData | null | undefined = object.data?.content
-    if (content && content["fields"]) {
-      const tableId = content["fields"]["scores"]["fields"]["id"]["id"]
-      const scores = await getTableData(tableId)
-      setScores(scores)
-    }
-  }
-
-  const getObject = async (objectId: string) => {
-    return await client.getObject({
-      id: objectId,
-      options: {
-        showContent: true
-      }
-    })
-  }
-
-  const getTableData = async (objectId: string): Promise<Score[]> => {
-    const dynamicFields = await client.getDynamicFields({ parentId: objectId });
-    const ethAddressData: { [key: string]: { gamesPlayed: number; totalHp: number; totalTurns: number, lastGame: string } } = {};
-  
-    for (const d of dynamicFields.data) {
-      const object = await getObject(d.objectId);
-      const content: SuiParsedData | null | undefined = object.data?.content;
-  
-      if (content && ((content["fields"] || {})["value"] || {})["fields"]) {
-        const fields = content["fields"]["value"]["fields"];
-        const ethAddress = fields.eth_address;
-        const hpLeft = parseInt(fields.hp_left);
-        const turns = parseInt(fields.turns);
-  
-        // Initialize data for new ethAddress
-        if (!ethAddressData[ethAddress]) {
-          ethAddressData[ethAddress] = { gamesPlayed: 0, totalHp: 0, totalTurns: 0, lastGame: ""};
-        }
-  
-        // Update totals and counts
-        ethAddressData[ethAddress].gamesPlayed += 1;
-        ethAddressData[ethAddress].totalHp += hpLeft;
-        ethAddressData[ethAddress].totalTurns += turns;
-        ethAddressData[ethAddress].lastGame = d.objectId;
-      }
-    }
-  
-    // Convert the accumulated data into the final scores array, including total HP and total turns
-    const scores = Object.entries(ethAddressData).map(([ethAddress, data]) => ({
-      ethAddress,
-      score: Math.floor(data.totalHp / data.totalTurns * data.gamesPlayed),
-      totalHp: data.totalHp,
-      totalTurns: data.totalTurns,
-      lastGame: data.lastGame,
-      gamesPlayed: data.gamesPlayed,
-    }));
-  
-    // Optionally, sort the scores if needed
-    return scores.sort((a, b) => b.score - a.score);
-  };
+  //
+  // useEffect(() => {
+  //   if (!scoreboard && !isLoading) {
+  //     setIsLoading(true)
+  //     getScoreboard()
+  //   }
+  // }, [network, client, scoreboard])
+  //
+  // const getScoreboard = async () => {
+  //   console.log(network)
+  //   const object = await getObject(NETWORK_IDS[network].scoreboardObjectId);
+  //   const content: SuiParsedData | null | undefined = object.data?.content
+  //   if (content && content["fields"]) {
+  //     const tableId = content["fields"]["scores"]["fields"]["id"]["id"]
+  //     const scores = await getTableData(tableId)
+  //     setScores(scores)
+  //   }
+  // }
+  //
+  // const getObject = async (objectId: string) => {
+  //   return await client.getObject({
+  //     id: objectId,
+  //     options: {
+  //       showContent: true
+  //     }
+  //   })
+  // }
+  //
+  // const getTableData = async (objectId: string): Promise<Score[]> => {
+  //   const dynamicFields = await client.getDynamicFields({ parentId: objectId });
+  //   const ethAddressData: { [key: string]: { gamesPlayed: number; totalHp: number; totalTurns: number, lastGame: string } } = {};
+  //
+  //   for (const d of dynamicFields.data) {
+  //     const object = await getObject(d.objectId);
+  //     const content: SuiParsedData | null | undefined = object.data?.content;
+  //
+  //     if (content && ((content["fields"] || {})["value"] || {})["fields"]) {
+  //       const fields = content["fields"]["value"]["fields"];
+  //       const ethAddress = fields.eth_address;
+  //       const hpLeft = parseInt(fields.hp_left);
+  //       const turns = parseInt(fields.turns);
+  //
+  //       // Initialize data for new ethAddress
+  //       if (!ethAddressData[ethAddress]) {
+  //         ethAddressData[ethAddress] = { gamesPlayed: 0, totalHp: 0, totalTurns: 0, lastGame: ""};
+  //       }
+  //
+  //       // Update totals and counts
+  //       ethAddressData[ethAddress].gamesPlayed += 1;
+  //       ethAddressData[ethAddress].totalHp += hpLeft;
+  //       ethAddressData[ethAddress].totalTurns += turns;
+  //       ethAddressData[ethAddress].lastGame = d.objectId;
+  //     }
+  //   }
+  //
+  //   // Convert the accumulated data into the final scores array, including total HP and total turns
+  //   const scores = Object.entries(ethAddressData).map(([ethAddress, data]) => ({
+  //     ethAddress,
+  //     score: Math.floor(data.totalHp / data.totalTurns * data.gamesPlayed),
+  //     totalHp: data.totalHp,
+  //     totalTurns: data.totalTurns,
+  //     lastGame: data.lastGame,
+  //     gamesPlayed: data.gamesPlayed,
+  //   }));
+  //
+  //   // Optionally, sort the scores if needed
+  //   return scores.sort((a, b) => b.score - a.score);
+  // };
 
   return (
     <>
@@ -159,13 +151,13 @@ export function ScoreboardPage({network}: Props) {
                   {s.score}
                 </div>
                 <div className="basis-1/6 text-center">
-                  <a
-                    href={`https://suiscan.com/object/${s.lastGame}?network=${network}`}
-                    target={"_blank"}
-                    className="hover:underline"
-                  >
-                    Suiscan
-                  </a>
+                  {/*<a*/}
+                  {/*  href={`https://suiscan.com/object/${s.lastGame}?network=${network}`}*/}
+                  {/*  target={"_blank"}*/}
+                  {/*  className="hover:underline"*/}
+                  {/*>*/}
+                  {/*  Suiscan*/}
+                  {/*</a>*/}
                 </div>
               </div>
             )}
@@ -174,7 +166,7 @@ export function ScoreboardPage({network}: Props) {
 
         <div
           className={"flex w-full flex-col lg:flex-row lg:justify-between items-end text-xl p-4 lg:p-0 "}>
-          <Addresses network={network} />
+          <Addresses/>
           <BuildWithGaladriel />
         </div>
       </main>
