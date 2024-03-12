@@ -84,9 +84,7 @@ export function Landing() {
                 </button>
               </div>
               <div className="text-4xl pt-12">
-                Visit our
-                <a href="https://discord.gg/4UuffUbkjb" target="_blank" className="px-2 underline">Discord</a>
-                to get funds
+                To play, visit our <a href="https://discord.gg/4UuffUbkjb" target="_blank" className="px-2 underline">Discord</a> to get testnet funds
               </div>
             </div>
           </>
