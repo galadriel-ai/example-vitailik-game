@@ -6,7 +6,7 @@ import {createWeb3Modal, defaultConfig} from '@web3modal/ethers/react'
 const projectId = 'f25128b8bcfc64fb5c124705aa9442b8'
 
 let mainnet = {
-  chainId: 713715,
+  chainId: 696969,
   name: 'Galadriel',
   currency: 'GAL',
   explorerUrl: 'https://etherscan.io',
