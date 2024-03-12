@@ -50,34 +50,6 @@ export const ABI = [
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "response",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "responseType",
-        "type": "string"
-      },
-      {
-        "internalType": "address",
-        "name": "chatOwner",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "runId",
-        "type": "uint256"
-      }
-    ],
-    "name": "addResponse",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint8",
         "name": "selection",
         "type": "uint8"
@@ -187,17 +159,12 @@ export const ABI = [
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
         "internalType": "uint256",
         "name": "chatId",
         "type": "uint256"
       }
     ],
-    "name": "getMessages",
+    "name": "getMessageHistoryContents",
     "outputs": [
       {
         "internalType": "string[]",
@@ -211,17 +178,12 @@ export const ABI = [
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
         "internalType": "uint256",
         "name": "chatId",
         "type": "uint256"
       }
     ],
-    "name": "getRoles",
+    "name": "getMessageHistoryRoles",
     "outputs": [
       {
         "internalType": "string[]",
@@ -243,6 +205,42 @@ export const ABI = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "runId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "response",
+        "type": "string"
+      }
+    ],
+    "name": "onOracleFunctionResponse",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "runId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "response",
+        "type": "string"
+      }
+    ],
+    "name": "onOracleLlmResponse",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
