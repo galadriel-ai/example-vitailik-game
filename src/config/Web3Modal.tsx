@@ -27,8 +27,7 @@ if (process.env.NEXT_PUBLIC_NETWORK === "local") {
 const metadata = {
   name: "VitAIlik",
   description: "On-chain RPG game",
-  // TODO:
-  url: 'https://galadriel.com', // origin must match your domain & subdomain
+  url: "https://vitailik.galadriel.com", // origin must match your domain & subdomain
   icons: []
 }
 
