@@ -71,6 +71,9 @@ export function Landing() {
                 <div>
                   Battle with on-chain AI “VitAIlik”
                 </div>
+                <div className="text-4xl pt-12">
+                  Demo running on Galadriel testnet
+                </div>
               </div>
               <div className="pt-[100px]">
                 <button
@@ -79,6 +82,11 @@ export function Landing() {
                 >
                   Connect wallet to Battle
                 </button>
+              </div>
+              <div className="text-4xl pt-12">
+                Visit our
+                <a href="https://discord.gg/4UuffUbkjb" target="_blank" className="px-2 underline">Discord</a>
+                to get funds
               </div>
             </div>
           </>
@@ -92,7 +100,7 @@ export function Landing() {
                   <div className="max-w-[1000px]">
                     <div className="">
                       <div className={"text-4xl " + FONT.className}>
-                        Ah, brave wanderer of ETH Denver, welcome to my realm!
+                        Ah, brave wanderer, welcome to my realm!
                       </div>
                       <div className={"p-2 pt-6"}>
                         <div>
