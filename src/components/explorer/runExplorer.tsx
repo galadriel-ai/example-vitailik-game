@@ -71,8 +71,8 @@ export const RunExplorer = ({gameId, connectedAccount}: Props) => {
       contractInstance = newContract
     }
     if (contractInstance) {
-      const messages = await contractInstance.getMessages(address, gameId)
-      const roles = await contractInstance.getRoles(address, gameId)
+      const messages = await contractInstance.getMessageHistoryContents(gameId)
+      const roles = await contractInstance.getMessageHistoryRoles(gameId)
       const images = await contractInstance.getImages(gameId)
       const game = await contractInstance.games(gameId)
       currentGameRun.isFinished = game[3]

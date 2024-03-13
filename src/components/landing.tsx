@@ -71,9 +71,6 @@ export function Landing() {
                 <div>
                   Battle with on-chain AI “VitAIlik”
                 </div>
-                <div className="text-4xl pt-12">
-                  Demo running on Galadriel testnet
-                </div>
               </div>
               <div className="pt-[100px]">
                 <button
