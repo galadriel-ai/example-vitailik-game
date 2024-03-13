@@ -1,4 +1,8 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# VitAIlik
+
+This is a demo app for [Galadriel](https://galadriel.com) 
+
+To see the contracts this app uses check this repo: [Contracts](https://github.com/galadriel-ai/contracts)
 
 ## Getting Started
 
