@@ -9,7 +9,7 @@ let mainnet = {
   chainId: 696969,
   name: 'Galadriel',
   currency: 'GAL',
-  explorerUrl: 'https://etherscan.io',
+  explorerUrl: 'https://explorer.galadriel.com/',
   rpcUrl: 'https://testnet.galadriel.com/'
 }
 if (process.env.NEXT_PUBLIC_NETWORK === "local") {
@@ -17,7 +17,7 @@ if (process.env.NEXT_PUBLIC_NETWORK === "local") {
     chainId: 1337,
     name: 'Galadriel',
     currency: 'GAL',
-    explorerUrl: 'https://etherscan.io',
+    explorerUrl: 'https://explorer.galadriel.com/',
     rpcUrl: 'http://127.0.0.1:8545'
   }
 }
