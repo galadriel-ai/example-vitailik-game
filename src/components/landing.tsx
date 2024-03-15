@@ -80,6 +80,14 @@ export function Landing() {
                   Connect wallet to Battle
                 </button>
               </div>
+              <div className="underline">
+                <a
+                  href="https://docs.galadriel.com/setting-up-a-wallet"
+                  target="_blank"
+                >
+                  (Galadriel testnet)
+                </a>
+              </div>
               <div className="text-4xl pt-12">
                 To play, visit our <a href="https://discord.gg/4UuffUbkjb" target="_blank" className="px-2 underline">Discord</a> to get testnet funds
               </div>
