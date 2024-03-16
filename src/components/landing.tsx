@@ -72,6 +72,14 @@ export function Landing() {
                   Battle with on-chain AI “VitAIlik”
                 </div>
               </div>
+              <div className="text-3xl">
+                and
+              </div>
+              <div
+                className="text-6xl"
+              >
+                win <span className="text-[#00FF66]">1000 USDC</span>
+              </div>
               <div className="pt-[100px]">
                 <button
                   onClick={() => open()}
@@ -89,7 +97,16 @@ export function Landing() {
                 </a>
               </div>
               <div className="text-4xl pt-12">
-                To play, visit our <a href="https://discord.gg/4UuffUbkjb" target="_blank" className="px-2 underline">Discord</a> to get testnet funds
+                To play, visit our <a href="https://discord.gg/4UuffUbkjb" target="_blank"
+                                      className="px-2 underline">Discord</a> to get testnet funds
+              </div>
+              <div className="pt-10 flex flex-col gap-2">
+                <div>
+                  competition until end of ETH Denver
+                </div>
+                <div>
+                  no skills required
+                </div>
               </div>
             </div>
           </>
