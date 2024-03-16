@@ -102,7 +102,7 @@ export function Landing() {
               </div>
               <div className="pt-10 flex flex-col gap-2">
                 <div>
-                  competition until end of ETH Denver
+                  competition until end of ETH London
                 </div>
                 <div>
                   no skills required
