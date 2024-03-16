@@ -4,6 +4,8 @@ import {ProgressBar} from "@/components/ProgressBar";
 import Addresses from "../addresses";
 import {Contract, JsonRpcProvider} from "ethers";
 import {ABI} from "@/types/network";
+import {useWeb3ModalAccount} from '@web3modal/ethers/react'
+
 
 interface WinningGame {
   index: number
@@ -23,6 +25,7 @@ interface Score {
 }
 
 export function ScoreboardPage() {
+  const {address, isConnected} = useWeb3ModalAccount()
 
   let [isLoading, setIsLoading] = useState<boolean>(false)
   let [scoreboard, setScoreboard] = useState<any | undefined>()
@@ -170,7 +173,13 @@ export function ScoreboardPage() {
                     target="_blank"
                     className="hover:underline"
                   >
-                    {s.ethAddress.slice(0, 7)}...
+                    {address && s.ethAddress === address ?
+                      <>You</>
+                      :
+                      <>
+                        {s.ethAddress.slice(0, 7)}...
+                      </>
+                    }
                   </a>
                 </div>
                 <div className="basis-1/5 text-center">
