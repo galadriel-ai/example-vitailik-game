@@ -28,8 +28,8 @@ interface Game {
 
 function replaceViilikAndRemoveImageLines(description: string): string {
   const lines = description.split('\n');
-  const processedLines = lines.filter(line => !line.startsWith('[IMAGE]'))
-    .map(line => line.replace(/viilik/gi, 'VitAIlik'));
+  const processedLines = lines.filter(line => !line.startsWith("<IMAGE") && !line.startsWith("[IMAGE"))
+    .map(line => line.replace(/viilik/gi, "VitAIlik"));
   return processedLines.join('\n');
 }
 
@@ -80,13 +80,13 @@ export const RunExplorer = ({gameId, connectedAccount}: Props) => {
       const formattedMessages: Message[] = []
       for (let i = 0; i < messages.length; i++) {
         // Skip system prompt and first user "start" message
-        if (i > 1) {
+        if (i > 2) {
           if (roles[i] !== "user") {
             const newMessage: Message = {
               role: roles[i],
               content: messages[i]
             }
-            if (images.length > imageIndex && newMessage.content.includes("[IMAGE")) {
+            if (images.length > imageIndex && newMessage.content.includes("<IMAGE")) {
               newMessage.imageUrl = images[imageIndex]
               imageIndex++
             }
@@ -113,7 +113,7 @@ export const RunExplorer = ({gameId, connectedAccount}: Props) => {
       }
     }
     if (!currentGameRun.isFinished) {
-      await new Promise(r => setTimeout(r, 3000))
+      await new Promise(r => setTimeout(r, 500))
       await getGame(gameId)
     }
   }
@@ -187,6 +187,7 @@ const GameDisplay = ({game, onNewSelection, connectedAccount, isWaitingPrompt}: 
                 />
               }
               <div>{replaceViilikAndRemoveImageLines(d.content)}</div>
+
             </div>
             {(!game.isFinished && !d.selection) &&
               <>
