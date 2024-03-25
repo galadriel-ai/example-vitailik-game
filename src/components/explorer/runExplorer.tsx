@@ -28,7 +28,7 @@ interface Game {
 
 function replaceViilikAndRemoveImageLines(description: string): string {
   const lines = description.split('\n');
-  const processedLines = lines.filter(line => !line.startsWith("<IMAGE") && !line.startsWith("[IMAGE"))
+  const processedLines = lines.filter(line => !line.startsWith("<IMAGE") && !line.startsWith("[IMAGE") && !line.startsWith("(Note:"))
     .map(line => line.replace(/viilik/gi, "VitAIlik"));
   return processedLines.join('\n');
 }
@@ -86,7 +86,7 @@ export const RunExplorer = ({gameId, connectedAccount}: Props) => {
               role: roles[i],
               content: messages[i]
             }
-            if (images.length > imageIndex && newMessage.content.includes("<IMAGE")) {
+            if (images.length > imageIndex && (newMessage.content.includes("<IMAGE") || newMessage.content.includes("[IMAGE"))) {
               newMessage.imageUrl = images[imageIndex]
               imageIndex++
             }
