@@ -48,7 +48,7 @@ export function ScoreboardPage() {
 
       if (!contractInstance) {
         const ethersProvider = new JsonRpcProvider(
-          process.env.NEXT_PUBLIC_RPC_URL || "https://testnet.galadriel.com",
+          process.env.NEXT_PUBLIC_RPC_URL || "https://devnet.galadriel.com",
         )
         const signer = await ethersProvider.getSigner()
         const newContract = new Contract(process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || "", ABI, signer)
