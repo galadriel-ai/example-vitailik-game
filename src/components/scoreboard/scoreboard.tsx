@@ -90,7 +90,7 @@ export function ScoreboardPage() {
   }
 
   const getHpLeft = (content: string): number => {
-    const regex = /Your HP: ([\d,]+)/;
+    const regex = /Your HP: ([\d,]+)/i;
     const match = content.match(regex);
     if (!match) return 0
     // Extract the HP value, removing commas if any
