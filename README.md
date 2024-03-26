@@ -12,7 +12,7 @@ cp template.env .env.local
 ```
 Edit .env.local
 `NEXT_PUBLIC_NETWORK` "local" defaults to `http://localhost:8545/`   
-and anything else uses `https://testnet.galadriel.com/` as the RPC url
+and anything else uses `https://devnet.galadriel.com/` as the RPC url
 
 The contract addresses in template.env are for the testnet
 
