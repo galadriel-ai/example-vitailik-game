@@ -93,12 +93,12 @@ export function Landing() {
                   href="https://docs.galadriel.com/setting-up-a-wallet"
                   target="_blank"
                 >
-                  (Galadriel testnet)
+                  (Galadriel devnet)
                 </a>
               </div>
               <div className="text-4xl pt-12">
                 To play, visit our <a href="https://discord.gg/4UuffUbkjb" target="_blank"
-                                      className="px-2 underline">Discord</a> to get testnet funds
+                                      className="px-2 underline">Discord</a> to get devnet funds
               </div>
               <div className="pt-10 flex flex-col gap-2">
                 <div>
